@@ -1,10 +1,13 @@
 package us.philipli.gradebook.activities;
 
+import android.content.Intent;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
 
 import java.util.ArrayList;
 
@@ -13,6 +16,11 @@ import us.philipli.gradebook.adapters.CourseAdapter;
 import us.philipli.gradebook.course.Course;
 
 public class MainActivity extends AppCompatActivity {
+
+    // Set up recycler view for courses
+    private RecyclerView mRecyclerView;
+    private RecyclerView.Adapter mAdapter;
+    private RecyclerView.LayoutManager mLayoutManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,10 +31,19 @@ public class MainActivity extends AppCompatActivity {
         Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
 
-        // Set up recycler view for courses
-        RecyclerView mRecyclerView;
-        RecyclerView.Adapter mAdapter;
-        RecyclerView.LayoutManager mLayoutManager;
+        // Set up floating action button
+        FloatingActionButton myFab = (FloatingActionButton)  findViewById(R.id.fab);
+        myFab.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent intent = new Intent (v.getContext(), AddCourseActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        setupCoursesList();
+    }
+
+    private void setupCoursesList () {
 
         mRecyclerView = (RecyclerView) findViewById(R.id.courses_recyclerview);
 
@@ -48,7 +65,5 @@ public class MainActivity extends AppCompatActivity {
         // specify an adapter (see also next example)
         mAdapter = new CourseAdapter(myDataset);
         mRecyclerView.setAdapter(mAdapter);
-
-
     }
 }

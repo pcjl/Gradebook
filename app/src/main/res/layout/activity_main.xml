@@ -106,8 +106,7 @@
             android:background="@color/colorAccent"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
-            android:layout_marginRight="24dp"
-            android:layout_marginBottom="24dp"
+            app:useCompatPadding="true"
             app:elevation="6dp" />
 
     </RelativeLayout>
