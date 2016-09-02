@@ -1,5 +1,10 @@
 <resources>
     <string name="app_name">Gradebook</string>
+
+    <!--Buttons-->
     <string name="action_settings">Settings</string>
     <string name="action_save">SAVE</string>
+
+    <!--Misc Strings-->
+    <string name="field_enter_course">Enter course code</string>
 </resources>
