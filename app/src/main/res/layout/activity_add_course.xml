@@ -92,6 +92,13 @@
             android:paddingRight="16dp"
             android:paddingTop="8dp">
 
+            <ImageView
+                android:id="@+id/weight_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_donut_large_black_24dp"
+                android:paddingRight="24dp"/>
+
             <EditText
                 android:background="@android:color/transparent"
                 android:textSize="16sp"
@@ -109,14 +116,21 @@
 
         <LinearLayout
             android:id="@+id/assessment_layout"
-            android:orientation="vertical"
-            android:gravity="top"
+            android:orientation="horizontal"
+            android:gravity="center"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingStart="16dp"
             android:paddingEnd="16dp"
             android:paddingLeft="16dp"
             android:paddingRight="16dp">
+
+            <ImageView
+                android:id="@+id/assessment_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_assignment_black_24dp"
+                android:paddingRight="24dp"/>
 
             <EditText
                 android:background="@android:color/transparent"

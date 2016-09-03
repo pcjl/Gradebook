@@ -28,7 +28,12 @@ public class AddCourseActivity extends AppCompatActivity {
 
     private void changeTransparency() {
         ImageView classIcon = (ImageView) findViewById(R.id.class_icon);
+        ImageView weightIcon = (ImageView) findViewById(R.id.weight_icon);
+        ImageView assessmentIcon = (ImageView) findViewById(R.id.assessment_icon);
+
         classIcon.setImageAlpha(140);
+        weightIcon.setImageAlpha(140);
+        assessmentIcon.setImageAlpha(140);
     }
 
     private void setupToolBar() {
