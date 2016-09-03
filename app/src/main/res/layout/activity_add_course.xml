@@ -35,7 +35,10 @@
                 android:hint="@string/field_enter_course"
                 android:textColorHint="@android:color/white"
                 android:textCursorDrawable="@drawable/color_cursor"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                android:inputType="text" />
+                <!--android:inputType="textVisiblePassword"-->
+                <!--android:inputType="textFilter|textNoSuggestions"-->
 
         </LinearLayout>
 
@@ -60,6 +63,39 @@
             android:paddingStart="16dp">
 
             <ImageView
+                android:id="@+id/class_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingRight="24dp"
+                android:src="@drawable/ic_class_black_24dp" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:hint="@string/field_enter_course_name"
+                android:textSize="16sp"
+                android:inputType="text" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/lineDivider">
+        </View>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="64dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingEnd="16dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:paddingStart="16dp">
+
+            <ImageView
                 android:id="@+id/check_icon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -70,7 +106,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="16sp"
-                android:text="@string/toggle_include_gpa"/>
+                android:text="@string/toggle_include_gpa"
+                android:textColor="@android:color/black"/>
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -84,39 +121,6 @@
                     android:checked="true" />
 
             </RelativeLayout>
-
-        </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:background="@color/lineDivider">
-        </View>
-
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="64dp"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:paddingEnd="16dp"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp"
-            android:paddingStart="16dp">
-
-            <ImageView
-                android:id="@+id/class_icon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingRight="24dp"
-                android:src="@drawable/ic_class_black_24dp" />
-
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@android:color/transparent"
-                android:hint="@string/field_enter_course_name"
-                android:textSize="16sp" />
 
         </LinearLayout>
 
@@ -148,7 +152,8 @@
                 android:layout_height="wrap_content"
                 android:background="@android:color/transparent"
                 android:hint="@string/field_add_weight"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                android:inputType="numberDecimal" />
 
         </LinearLayout>
 
@@ -181,7 +186,8 @@
                 android:layout_height="64dp"
                 android:background="@android:color/transparent"
                 android:hint="@string/field_add_assessment"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                android:inputType="text" />
 
         </LinearLayout>
 
