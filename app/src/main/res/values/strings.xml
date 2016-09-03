@@ -12,4 +12,8 @@
     <string name="field_add_assessment">Add an assessment</string>
     <string name="button_add_another_assessment">Add another assessment</string>
     <string name="toggle_include_gpa">Include in GPA</string>
+
+    <string name="course_discard_dialog">Are you sure you want to discard this course?</string>
+    <string name="discard">DISCARD</string>
+    <string name="keep_editing">KEEP EDITING</string>
 </resources>

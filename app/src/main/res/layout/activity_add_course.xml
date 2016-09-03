@@ -29,8 +29,9 @@
             android:padding="16dp">
 
             <EditText
+                android:id="@+id/code_field"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:background="@android:color/transparent"
                 android:hint="@string/field_enter_course"
                 android:textColorHint="@android:color/white"
@@ -70,8 +71,9 @@
                 android:src="@drawable/ic_class_black_24dp" />
 
             <EditText
+                android:id="@+id/name_field"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:background="@android:color/transparent"
                 android:hint="@string/field_enter_course_name"
                 android:textSize="16sp"
@@ -148,8 +150,9 @@
                 android:src="@drawable/ic_donut_large_black_24dp" />
 
             <EditText
+                android:id="@+id/weight_field"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:background="@android:color/transparent"
                 android:hint="@string/field_add_weight"
                 android:textSize="16sp"
@@ -182,6 +185,7 @@
                 android:src="@drawable/ic_assignment_black_24dp" />
 
             <EditText
+                android:id="@+id/assessment_field"
                 android:layout_width="match_parent"
                 android:layout_height="64dp"
                 android:background="@android:color/transparent"

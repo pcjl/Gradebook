@@ -1,17 +1,18 @@
 package us.philipli.gradebook.activities;
 
-import android.graphics.Color;
-import android.graphics.PorterDuff;
-import android.graphics.drawable.Drawable;
+import android.support.annotation.NonNull;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ImageButton;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
+
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
 
 import us.philipli.gradebook.R;
 
@@ -55,10 +56,37 @@ public class AddCourseActivity extends AppCompatActivity {
         }
     }
 
+    private boolean getValues() {
+
+        EditText courseCodeField = (EditText) findViewById(R.id.code_field);
+        EditText courseNameField = (EditText) findViewById(R.id.name_field);
+        EditText courseWeightField = (EditText) findViewById(R.id.weight_field);
+        EditText assessmentField = (EditText) findViewById(R.id.assessment_field);
+
+        return false;
+    }
+
     @Override
     public boolean onSupportNavigateUp() {
 
-        finish(); // close this activity as oppose to navigating up
+        new MaterialDialog.Builder(this)
+                .content(R.string.course_discard_dialog)
+                .positiveText(R.string.keep_editing)
+                .negativeText(R.string.discard)
+                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        dialog.dismiss();
+                    }
+                })
+                .onNegative(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        finish(); // Destroy this activity
+                    }
+                })
+                .show();
+
         return false;
     }
 
