@@ -7,4 +7,8 @@
 
     <!--Misc Strings-->
     <string name="field_enter_course">Enter course code</string>
+    <string name="field_enter_course_name">Course name</string>
+    <string name="field_add_weight">Course weight</string>
+    <string name="field_add_assessment">Add an assessment</string>
+    <string name="field_add_another_assessment">Add another assessment</string>
 </resources>

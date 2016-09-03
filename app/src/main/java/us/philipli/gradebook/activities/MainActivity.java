@@ -18,6 +18,9 @@ import us.philipli.gradebook.course.Course;
 
 public class MainActivity extends AppCompatActivity {
 
+    // Toolbar
+    private Toolbar myToolbar;
+
     // Set up recycler view for courses
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
@@ -28,9 +31,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Set up toolbar
-        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
-        setSupportActionBar(myToolbar);
+        setupToolbar();
 
         // Set up floating action button
         FloatingActionButton myFab = (FloatingActionButton)  findViewById(R.id.fab);
@@ -42,6 +43,22 @@ public class MainActivity extends AppCompatActivity {
         });
 
         setupCoursesList();
+    }
+
+    private void setupToolbar () {
+        // Set up toolbar
+        myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        setSupportActionBar(myToolbar);
+
+        if (myToolbar != null) {
+
+            // Hamburger
+            // this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+            /**
+             * http://stackoverflow.com/questions/28071763/toolbar-navigation-hamburger-icon-missing
+             */
+        }
     }
 
     private void setupCoursesList () {
