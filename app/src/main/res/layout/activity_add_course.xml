@@ -22,56 +22,101 @@
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
         <LinearLayout
-            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="bottom"
+            android:orientation="vertical"
             android:padding="16dp">
 
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@android:color/transparent"
-                android:textCursorDrawable="@drawable/color_cursor"
+                android:hint="@string/field_enter_course"
                 android:textColorHint="@android:color/white"
-                android:textSize="16sp"
-                android:hint="@string/field_enter_course" />
+                android:textCursorDrawable="@drawable/color_cursor"
+                android:textSize="16sp" />
 
         </LinearLayout>
 
     </android.support.design.widget.AppBarLayout>
 
     <LinearLayout
-        android:orientation="vertical"
-        android:gravity="top"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/appbar"
-        android:background="@color/colorBackground">
+        android:background="@color/colorBackground"
+        android:gravity="top"
+        android:orientation="vertical">
 
         <LinearLayout
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
             android:layout_width="match_parent"
             android:layout_height="64dp"
-            android:paddingStart="16dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
             android:paddingEnd="16dp"
             android:paddingLeft="16dp"
-            android:paddingRight="16dp">
+            android:paddingRight="16dp"
+            android:paddingStart="16dp">
+
+            <ImageView
+                android:id="@+id/check_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingRight="24dp"
+                android:src="@drawable/ic_check_circle_black_24dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:text="@string/toggle_include_gpa"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <Switch
+                    android:id="@+id/gpa_include_switch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:checked="true" />
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/lineDivider">
+        </View>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="64dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingEnd="16dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:paddingStart="16dp">
 
             <ImageView
                 android:id="@+id/class_icon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_class_black_24dp"
-                android:paddingRight="24dp"/>
+                android:paddingRight="24dp"
+                android:src="@drawable/ic_class_black_24dp" />
 
             <EditText
-                android:background="@android:color/transparent"
-                android:textSize="16sp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/field_enter_course_name"/>
+                android:background="@android:color/transparent"
+                android:hint="@string/field_enter_course_name"
+                android:textSize="16sp" />
 
         </LinearLayout>
 
@@ -82,29 +127,28 @@
         </View>
 
         <LinearLayout
-            android:orientation="horizontal"
-            android:gravity="center"
             android:layout_width="match_parent"
             android:layout_height="64dp"
-            android:paddingStart="16dp"
+            android:gravity="center"
+            android:orientation="horizontal"
             android:paddingEnd="16dp"
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
-            android:paddingTop="8dp">
+            android:paddingStart="16dp">
 
             <ImageView
                 android:id="@+id/weight_icon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_donut_large_black_24dp"
-                android:paddingRight="24dp"/>
+                android:paddingRight="24dp"
+                android:src="@drawable/ic_donut_large_black_24dp" />
 
             <EditText
-                android:background="@android:color/transparent"
-                android:textSize="16sp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/field_add_weight"/>
+                android:background="@android:color/transparent"
+                android:hint="@string/field_add_weight"
+                android:textSize="16sp" />
 
         </LinearLayout>
 
@@ -116,28 +160,28 @@
 
         <LinearLayout
             android:id="@+id/assessment_layout"
-            android:orientation="horizontal"
-            android:gravity="center"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingStart="16dp"
+            android:gravity="center"
+            android:orientation="horizontal"
             android:paddingEnd="16dp"
             android:paddingLeft="16dp"
-            android:paddingRight="16dp">
+            android:paddingRight="16dp"
+            android:paddingStart="16dp">
 
             <ImageView
                 android:id="@+id/assessment_icon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_assignment_black_24dp"
-                android:paddingRight="24dp"/>
+                android:paddingRight="24dp"
+                android:src="@drawable/ic_assignment_black_24dp" />
 
             <EditText
-                android:background="@android:color/transparent"
-                android:textSize="16sp"
                 android:layout_width="match_parent"
                 android:layout_height="64dp"
-                android:hint="@string/field_add_assessment"/>
+                android:background="@android:color/transparent"
+                android:hint="@string/field_add_assessment"
+                android:textSize="16sp" />
 
         </LinearLayout>
 

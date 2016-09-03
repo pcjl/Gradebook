@@ -10,5 +10,6 @@
     <string name="field_enter_course_name">Course name</string>
     <string name="field_add_weight">Course weight</string>
     <string name="field_add_assessment">Add an assessment</string>
-    <string name="field_add_another_assessment">Add another assessment</string>
+    <string name="button_add_another_assessment">Add another assessment</string>
+    <string name="toggle_include_gpa">Include in GPA</string>
 </resources>
