@@ -5,10 +5,15 @@ import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.DialogAction;
@@ -18,6 +23,10 @@ import us.philipli.gradebook.R;
 
 public class AddCourseActivity extends AppCompatActivity {
 
+    final int MAX_ASSESSMENTS = 10; // total number of textviews to add
+    final TextView[] ASSESSMENT_VIEWS = new TextView[MAX_ASSESSMENTS]; // create an empty array;
+    private int assessmentCount = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,6 +34,9 @@ public class AddCourseActivity extends AppCompatActivity {
 
         setupToolBar();
         changeTransparency();
+
+        final TextView firstAssessment = (TextView) findViewById(R.id.first_assessment);
+        ASSESSMENT_VIEWS[0] = firstAssessment;
     }
 
     private void changeTransparency() {
@@ -61,9 +73,48 @@ public class AddCourseActivity extends AppCompatActivity {
         EditText courseCodeField = (EditText) findViewById(R.id.code_field);
         EditText courseNameField = (EditText) findViewById(R.id.name_field);
         EditText courseWeightField = (EditText) findViewById(R.id.weight_field);
-        EditText assessmentField = (EditText) findViewById(R.id.assessment_field);
 
         return false;
+    }
+
+    public void addCourse(View v) {
+
+        if (assessmentCount + 1 < MAX_ASSESSMENTS) {
+            LinearLayout mLinearLayout = (LinearLayout) findViewById(R.id.assessment_list);
+
+            View.OnClickListener addListener = new View.OnClickListener() {
+                public void onClick(View v) {
+                    addCourse(v);
+                }
+            };
+
+            final TextView assessmentRow = new TextView(this);
+
+            // View params
+            assessmentRow.setText(R.string.button_add_another_assessment);
+            assessmentRow.setClickable(true);
+            assessmentRow.setOnClickListener(addListener);
+            assessmentRow.setTextSize(TypedValue.COMPLEX_UNIT_SP,16);
+
+            int assessmentHeight = (int) getResources().getDimension(R.dimen.item_assessment_height);
+//            assessmentRow.getLayoutParams().width = ViewGroup.LayoutParams.WRAP_CONTENT;
+            assessmentRow.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                    assessmentHeight));
+
+            // Add view to layout
+            mLinearLayout.addView(assessmentRow);
+            ASSESSMENT_VIEWS[assessmentCount] = assessmentRow;
+
+            // Set previous to unclickable
+            TextView startingAssessment = (TextView) findViewById(R.id.first_assessment);
+            startingAssessment.setClickable(false);
+
+            if (assessmentCount >= 1) {
+                ASSESSMENT_VIEWS[assessmentCount - 1].setClickable(false);
+            }
+
+            assessmentCount++;
+        }
     }
 
     @Override
