@@ -22,6 +22,8 @@ import android.widget.Toast;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 
+import pl.coreorb.selectiondialogs.views.SelectedItemView;
+import us.philipli.gradebook.ColorDialogFragment;
 import us.philipli.gradebook.R;
 
 public class AddCourseActivity extends AppCompatActivity {

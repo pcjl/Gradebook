@@ -1,25 +1,15 @@
 package us.philipli.gradebook;
 
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AlertDialog;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
-
-import java.util.ArrayList;
-
 import pl.coreorb.selectiondialogs.data.SelectableColor;
-import pl.coreorb.selectiondialogs.data.SelectableIcon;
 import pl.coreorb.selectiondialogs.dialogs.ColorSelectDialog;
-import pl.coreorb.selectiondialogs.dialogs.IconSelectDialog;
 import pl.coreorb.selectiondialogs.utils.ColorPalettes;
 import pl.coreorb.selectiondialogs.views.SelectedItemView;
 
@@ -41,7 +31,6 @@ public class ColorDialogFragment extends Fragment implements
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_color_dialog, container, false);
 
-
         colorSIV = (SelectedItemView) rootView.findViewById(R.id.color_siv);
         colorSIV.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -49,6 +38,8 @@ public class ColorDialogFragment extends Fragment implements
                 showColorSelectDialog();
             }
         });
+
+        SelectableColor color = colorSIV.getSelectedColor();
 
         return rootView;
     }
@@ -93,6 +84,7 @@ public class ColorDialogFragment extends Fragment implements
                 .setSortColorsByName(true)
                 .setOnColorSelectedListener(this)
                 .build().show(getFragmentManager(), TAG_SELECT_COLOR_DIALOG);
+
     }
 
 }
