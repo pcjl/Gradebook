@@ -28,4 +28,5 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:24.2.0'
     compile 'com.afollestad.material-dialogs:core:0.9.0.1'
     compile 'com.android.support:support-v4:24.2.0'
+    compile 'pl.coreorb:selection-dialogs:0.9.1'
 }

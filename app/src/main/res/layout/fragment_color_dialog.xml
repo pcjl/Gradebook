@@ -1,0 +1,16 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="us.philipli.gradebook.ColorDialogFragment"
+    tools:showIn="@layout/activity_main">
+
+    <pl.coreorb.selectiondialogs.views.SelectedItemView
+        android:id="@+id/color_siv"
+        android:layout_width="match_parent"
+        android:layout_height="64dp"
+        app:itemColor="@color/selectiondialogs_materialdesign500_green"
+        app:itemName="@string/selectiondialogs_materialdesign500_green" />
+
+</FrameLayout>
