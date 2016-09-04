@@ -2,10 +2,12 @@ package us.philipli.gradebook.activities;
 
 import android.support.annotation.NonNull;
 import android.support.v4.view.MenuItemCompat;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -13,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,6 +29,10 @@ public class AddCourseActivity extends AppCompatActivity {
     final int MAX_ASSESSMENTS = 10; // total number of textviews to add
     final TextView[] ASSESSMENT_VIEWS = new TextView[MAX_ASSESSMENTS]; // create an empty array;
     private int assessmentCount = 0;
+
+    private String courseCode;
+    private String courseName;
+    private Double courseWeight;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,7 +81,16 @@ public class AddCourseActivity extends AppCompatActivity {
         EditText courseNameField = (EditText) findViewById(R.id.name_field);
         EditText courseWeightField = (EditText) findViewById(R.id.weight_field);
 
-        return false;
+        courseCode = courseCodeField.getText().toString();
+        courseName = courseNameField.getText().toString();
+
+        try {
+            courseWeight = Double.parseDouble(courseWeightField.getText().toString());
+        } catch (Exception ex) {
+            courseWeight = 0.0;
+        }
+
+        return !(courseCode.equals("") && courseName.equals("") && courseWeight == 0.0);
     }
 
     public void addCourse(View v) {
@@ -114,32 +130,80 @@ public class AddCourseActivity extends AppCompatActivity {
             }
 
             assessmentCount++;
+
+            final NestedScrollView mNestedScrollView = (NestedScrollView) findViewById(R.id.assessment_scroll);
+            mNestedScrollView.post(new Runnable() {
+                @Override
+                public void run() {
+                    mNestedScrollView.fullScroll(ScrollView.FOCUS_DOWN);
+                }
+            });
+
         }
     }
 
     @Override
     public boolean onSupportNavigateUp() {
 
-        new MaterialDialog.Builder(this)
-                .content(R.string.course_discard_dialog)
-                .positiveText(R.string.keep_editing)
-                .negativeText(R.string.discard)
-                .onPositive(new MaterialDialog.SingleButtonCallback() {
-                    @Override
-                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                        dialog.dismiss();
-                    }
-                })
-                .onNegative(new MaterialDialog.SingleButtonCallback() {
-                    @Override
-                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                        finish(); // Destroy this activity
-                    }
-                })
-                .show();
-
+        if (getValues()) {
+            new MaterialDialog.Builder(this)
+                    .content(R.string.course_discard_dialog)
+                    .positiveText(R.string.keep_editing)
+                    .negativeText(R.string.discard)
+                    .onPositive(new MaterialDialog.SingleButtonCallback() {
+                        @Override
+                        public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                            dialog.dismiss();
+                        }
+                    })
+                    .onNegative(new MaterialDialog.SingleButtonCallback() {
+                        @Override
+                        public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                            finish(); // Destroy this activity
+                        }
+                    })
+                    .show();
+        }
+        else {
+            finish();
+        }
         return false;
     }
+
+    // Handle back action
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+
+            if (getValues()) {
+                new MaterialDialog.Builder(this)
+                        .content(R.string.course_discard_dialog)
+                        .positiveText(R.string.keep_editing)
+                        .negativeText(R.string.discard)
+                        .onPositive(new MaterialDialog.SingleButtonCallback() {
+                            @Override
+                            public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                dialog.dismiss();
+                            }
+                        })
+                        .onNegative(new MaterialDialog.SingleButtonCallback() {
+                            @Override
+                            public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                finish(); // Destroy this activity
+                            }
+                        })
+                        .show();
+            }
+            else {
+                finish();
+            }
+
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
