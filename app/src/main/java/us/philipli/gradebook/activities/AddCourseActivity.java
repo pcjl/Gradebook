@@ -90,7 +90,8 @@ public class AddCourseActivity extends AppCompatActivity {
             courseWeight = 0.0;
         }
 
-        return !(courseCode.equals("") && courseName.equals("") && courseWeight == 0.0);
+        return !(assessmentCount == 0 && courseCode.equals("")
+                && courseName.equals("") && courseWeight == 0.0);
     }
 
     public void addCourse(View v) {
@@ -110,7 +111,7 @@ public class AddCourseActivity extends AppCompatActivity {
             assessmentRow.setText(R.string.button_add_another_assessment);
             assessmentRow.setClickable(true);
             assessmentRow.setOnClickListener(addListener);
-            assessmentRow.setTextSize(TypedValue.COMPLEX_UNIT_SP,16);
+            assessmentRow.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
 
             int assessmentHeight = (int) getResources().getDimension(R.dimen.item_assessment_height);
 //            assessmentRow.getLayoutParams().width = ViewGroup.LayoutParams.WRAP_CONTENT;
@@ -163,8 +164,7 @@ public class AddCourseActivity extends AppCompatActivity {
                         }
                     })
                     .show();
-        }
-        else {
+        } else {
             finish();
         }
         return false;
@@ -194,8 +194,7 @@ public class AddCourseActivity extends AppCompatActivity {
                             }
                         })
                         .show();
-            }
-            else {
+            } else {
                 finish();
             }
 

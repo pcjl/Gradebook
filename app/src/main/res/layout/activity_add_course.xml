@@ -2,9 +2,10 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    tools:context="us.philipli.gradebook.activities.AddCourseActivity"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="us.philipli.gradebook.activities.AddCourseActivity">
+    android:background="@color/colorBackground">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appbar"
@@ -38,8 +39,6 @@
                 android:textCursorDrawable="@drawable/color_cursor"
                 android:textSize="16sp"
                 android:inputType="text" />
-                <!--android:inputType="textVisiblePassword"-->
-                <!--android:inputType="textFilter|textNoSuggestions"-->
 
         </LinearLayout>
 
