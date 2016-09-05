@@ -15,7 +15,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -26,10 +25,7 @@ import android.widget.Toast;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import us.philipli.gradebook.R;
 import us.philipli.gradebook.course.Assessment;
@@ -129,6 +125,7 @@ public class AddCourseActivity extends AppCompatActivity {
 
     private void showEditDeleteDialog(View v) {
 
+        final LinearLayout mLinearLayout = (LinearLayout) findViewById(R.id.assessment_list);
         final View row = v;
 
         new MaterialDialog.Builder(this)
@@ -140,6 +137,29 @@ public class AddCourseActivity extends AppCompatActivity {
                             case 0:
                                 dialog.dismiss();
                                 showAddAssessmentDialog(row);
+                            case 1:
+                                dialog.dismiss();
+
+                                int rowIndex = mLinearLayout.indexOfChild(row);
+                                ViewGroup parent = ((ViewGroup) row.getParent());
+
+                                if (rowIndex == 0 && ASSESSMENTS.size() == 1) {
+                                    ASSESSMENT_VIEWS.get(rowIndex).setText(R.string.button_add_assessment);
+                                    ASSESSMENT_VIEWS.get(rowIndex).setTextColor(Color.parseColor("#808080"));
+                                    parent.removeView(parent.getChildAt(rowIndex + 1));
+                                }
+                                else if (rowIndex == 0) {
+
+                                    // TODO: Fix layout bug when user deletes first assessment while there are more assessments after
+                                    parent.getChildAt(1).requestLayout();
+                                    parent.removeView(parent.getChildAt(rowIndex));
+                                    ASSESSMENT_VIEWS.remove(rowIndex);
+                                }
+                                else {
+                                    ASSESSMENT_VIEWS.remove(rowIndex);
+                                    parent.removeView(row);
+                                }
+                                ASSESSMENTS.remove(rowIndex);
                         }
                     }
                 })
