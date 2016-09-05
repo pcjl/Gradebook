@@ -133,16 +133,18 @@ public class AddCourseActivity extends AppCompatActivity {
                 .itemsCallback(new MaterialDialog.ListCallback() {
                     @Override
                     public void onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
+
                         switch (which) {
                             case 0:
                                 dialog.dismiss();
                                 showAddAssessmentDialog(row);
+                                break;
                             case 1:
                                 dialog.dismiss();
 
                                 int rowIndex = mLinearLayout.indexOfChild(row);
                                 ViewGroup parent = ((ViewGroup) row.getParent());
-
+                                
                                 if (rowIndex == 0 && ASSESSMENTS.size() == 1) {
                                     ASSESSMENT_VIEWS.get(rowIndex).setText(R.string.button_add_assessment);
                                     ASSESSMENT_VIEWS.get(rowIndex).setTextColor(Color.parseColor("#808080"));
@@ -160,6 +162,7 @@ public class AddCourseActivity extends AppCompatActivity {
                                     parent.removeView(row);
                                 }
                                 ASSESSMENTS.remove(rowIndex);
+                                break;
                         }
                     }
                 })
