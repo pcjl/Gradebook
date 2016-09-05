@@ -28,6 +28,7 @@ import com.afollestad.materialdialogs.MaterialDialog;
 
 import org.w3c.dom.Text;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 import us.philipli.gradebook.R;
@@ -36,8 +37,8 @@ import us.philipli.gradebook.course.Assessment;
 public class AddCourseActivity extends AppCompatActivity {
 
     final int MAX_ASSESSMENTS = 10; // total number of text views to add
-    final Assessment[] ASSESSMENTS = new Assessment[MAX_ASSESSMENTS];
-    final TextView[] ASSESSMENT_VIEWS = new TextView[MAX_ASSESSMENTS]; // create an empty array;
+    final ArrayList<Assessment> ASSESSMENTS = new ArrayList<>(MAX_ASSESSMENTS);
+    final ArrayList<TextView> ASSESSMENT_VIEWS = new ArrayList<>(MAX_ASSESSMENTS); // create an empty array;
     private int assessmentCount = 0;
 
     private String courseCode;
@@ -53,7 +54,7 @@ public class AddCourseActivity extends AppCompatActivity {
         changeTransparency();
 
         final TextView firstAssessment = (TextView) findViewById(R.id.first_assessment);
-        ASSESSMENT_VIEWS[0] = firstAssessment;
+        ASSESSMENT_VIEWS.add(firstAssessment);
     }
 
     private void changeTransparency() {
@@ -170,12 +171,12 @@ public class AddCourseActivity extends AppCompatActivity {
                         EditText assessmentNameField = (EditText) dialog.getCustomView().findViewById(R.id.assessment_name_field);
                         EditText assessmentWeightField = (EditText) dialog.getCustomView().findViewById(R.id.assessment_weight_field);
 
-                        ASSESSMENTS[assessmentIndex] = new Assessment();
-                        ASSESSMENTS[assessmentIndex].setName(assessmentNameField.getText().toString());
+                        ASSESSMENTS.add(new Assessment());
+                        ASSESSMENTS.get(assessmentIndex).setName(assessmentNameField.getText().toString());
 
                         dialog.dismiss();
 
-                        row.setText(ASSESSMENTS[assessmentIndex].getName());
+                        row.setText(ASSESSMENTS.get(assessmentIndex).getName());
                         row.setTextColor(Color.parseColor("#000000"));
 
                         addAssessmentRow();
@@ -195,9 +196,13 @@ public class AddCourseActivity extends AppCompatActivity {
         final EditText assessmentNameField = (EditText) dialog.getCustomView().findViewById(R.id.assessment_name_field);
 
         // Edit a selection
-        if (ASSESSMENTS[assessmentIndex] != null) {
-            dialog.setTitle(R.string.edit_assessment_title);
-            assessmentNameField.setText(ASSESSMENTS[assessmentIndex].getName());
+        try {
+            if (!ASSESSMENTS.isEmpty() && ASSESSMENTS.get(assessmentIndex) != null) {
+                dialog.setTitle(R.string.edit_assessment_title);
+                assessmentNameField.setText(ASSESSMENTS.get(assessmentIndex).getName());
+            }
+        } catch (Exception ex) {
+            System.err.println(ex);
         }
 
         assessmentNameField.addTextChangedListener(new TextWatcher() {
@@ -246,35 +251,20 @@ public class AddCourseActivity extends AppCompatActivity {
 
             // Add view to layout
             mLinearLayout.addView(assessmentRow);
-            ASSESSMENT_VIEWS[assessmentCount] = assessmentRow;
+            ASSESSMENT_VIEWS.add(assessmentRow);
 
             // Set previous to un-clickable, only enable long click
 
             // First one needs to be specially set
-            TextView startingAssessment = (TextView) findViewById(R.id.first_assessment);
-            startingAssessment.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    // do nothing
-                }
-            });
-            startingAssessment.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View v) {
-                    showEditDeleteDialog(v);
-                    return false;
-                }
-            });
+            for (int i = 0; i < ASSESSMENT_VIEWS.size() - 1; i++) {
 
-            // Set the rest
-            if (assessmentCount >= 1) {
-                ASSESSMENT_VIEWS[assessmentCount - 1].setOnClickListener(new View.OnClickListener() {
+                ASSESSMENT_VIEWS.get(i).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         // do nothing
                     }
                 });
-                ASSESSMENT_VIEWS[assessmentCount - 1].setOnLongClickListener(new View.OnLongClickListener() {
+                ASSESSMENT_VIEWS.get(i).setOnLongClickListener(new View.OnLongClickListener() {
                     @Override
                     public boolean onLongClick(View v) {
                         showEditDeleteDialog(v);
