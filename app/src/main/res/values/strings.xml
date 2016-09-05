@@ -18,6 +18,7 @@
     <string name="keep_editing">KEEP EDITING</string>
 
     <string name="add_assessment_title">Add a new assessment</string>
+    <string name="edit_assessment_title">Edit assessment</string>
     <string name="add_assessment_name">Assessment</string>
     <string name="add_assessment_weight">Weight</string>
     <string name="add_assessment_grade">Grade</string>

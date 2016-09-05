@@ -15,6 +15,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -125,6 +126,25 @@ public class AddCourseActivity extends AppCompatActivity {
                 .show();
     }
 
+    private void showEditDeleteDialog(View v) {
+
+        final View row = v;
+
+        new MaterialDialog.Builder(this)
+                .items(R.array.long_press_items)
+                .itemsCallback(new MaterialDialog.ListCallback() {
+                    @Override
+                    public void onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
+                        switch (which) {
+                            case 0:
+                                dialog.dismiss();
+                                showAddAssessmentDialog(row);
+                        }
+                    }
+                })
+                .show();
+    }
+
     /**
      * Shows the add assessment dialog, user can enter assessment name and assessment weight
      *
@@ -139,7 +159,7 @@ public class AddCourseActivity extends AppCompatActivity {
         MaterialDialog dialog = new MaterialDialog.Builder(this)
                 .title(R.string.add_assessment_title)
                 .customView(R.layout.dialog_add_assessment, false)
-                .positiveText(R.string.add_assessment_add)
+                .positiveText(R.string.action_save)
                 .negativeText(R.string.add_assessment_cancel)
                 .onPositive(new MaterialDialog.SingleButtonCallback() {
                     @Override
@@ -176,6 +196,7 @@ public class AddCourseActivity extends AppCompatActivity {
 
         // Edit a selection
         if (ASSESSMENTS[assessmentIndex] != null) {
+            dialog.setTitle(R.string.edit_assessment_title);
             assessmentNameField.setText(ASSESSMENTS[assessmentIndex].getName());
         }
 
@@ -227,14 +248,41 @@ public class AddCourseActivity extends AppCompatActivity {
             mLinearLayout.addView(assessmentRow);
             ASSESSMENT_VIEWS[assessmentCount] = assessmentRow;
 
-            // Set previous to un-clickable
-//            TextView startingAssessment = (TextView) findViewById(R.id.first_assessment);
-//            startingAssessment.setClickable(false);
-//
-//            if (assessmentCount >= 1) {
-//                ASSESSMENT_VIEWS[assessmentCount - 1].setClickable(false);
-//            }
-//
+            // Set previous to un-clickable, only enable long click
+
+            // First one needs to be specially set
+            TextView startingAssessment = (TextView) findViewById(R.id.first_assessment);
+            startingAssessment.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // do nothing
+                }
+            });
+            startingAssessment.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    showEditDeleteDialog(v);
+                    return false;
+                }
+            });
+
+            // Set the rest
+            if (assessmentCount >= 1) {
+                ASSESSMENT_VIEWS[assessmentCount - 1].setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        // do nothing
+                    }
+                });
+                ASSESSMENT_VIEWS[assessmentCount - 1].setOnLongClickListener(new View.OnLongClickListener() {
+                    @Override
+                    public boolean onLongClick(View v) {
+                        showEditDeleteDialog(v);
+                        return false;
+                    }
+                });
+            }
+
             assessmentCount++;
 
             // Scroll down automatically if the new assessment added is off screen
