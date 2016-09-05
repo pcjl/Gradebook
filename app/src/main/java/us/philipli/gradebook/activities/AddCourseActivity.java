@@ -1,11 +1,14 @@
 package us.philipli.gradebook.activities;
 
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.TypedValue;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -22,13 +25,17 @@ import android.widget.Toast;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 
-import pl.coreorb.selectiondialogs.views.SelectedItemView;
-import us.philipli.gradebook.ColorDialogFragment;
+import org.w3c.dom.Text;
+
+import java.util.Arrays;
+
 import us.philipli.gradebook.R;
+import us.philipli.gradebook.course.Assessment;
 
 public class AddCourseActivity extends AppCompatActivity {
 
-    final int MAX_ASSESSMENTS = 10; // total number of textviews to add
+    final int MAX_ASSESSMENTS = 10; // total number of text views to add
+    final Assessment[] ASSESSMENTS = new Assessment[MAX_ASSESSMENTS];
     final TextView[] ASSESSMENT_VIEWS = new TextView[MAX_ASSESSMENTS]; // create an empty array;
     private int assessmentCount = 0;
 
@@ -77,6 +84,8 @@ public class AddCourseActivity extends AppCompatActivity {
         }
     }
 
+    // TODO: Watching for text changes should really be done with TextWatcher
+    // http://stackoverflow.com/questions/5702771/how-to-use-single-textwatcher-for-multiple-edittexts
     private boolean getValues() {
 
         EditText courseCodeField = (EditText) findViewById(R.id.code_field);
@@ -96,14 +105,109 @@ public class AddCourseActivity extends AppCompatActivity {
                 && courseName.equals("") && courseWeight == 0.0);
     }
 
-    public void addCourse(View v) {
+    private void showDiscardDialog() {
+        new MaterialDialog.Builder(this)
+                .content(R.string.course_discard_dialog)
+                .positiveText(R.string.keep_editing)
+                .negativeText(R.string.discard)
+                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        dialog.dismiss();
+                    }
+                })
+                .onNegative(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        finish(); // Destroy this activity
+                    }
+                })
+                .show();
+    }
+
+    /**
+     * Shows the add assessment dialog, user can enter assessment name and assessment weight
+     *
+     * @return returns true if user saves assessment
+     */
+    public void showAddAssessmentDialog(View v) {
+
+        final LinearLayout mLinearLayout = (LinearLayout) findViewById(R.id.assessment_list);
+        final TextView row = (TextView) v;
+        final int assessmentIndex = mLinearLayout.indexOfChild(v);
+
+        MaterialDialog dialog = new MaterialDialog.Builder(this)
+                .title(R.string.add_assessment_title)
+                .customView(R.layout.dialog_add_assessment, false)
+                .positiveText(R.string.add_assessment_add)
+                .negativeText(R.string.add_assessment_cancel)
+                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+
+                        // TODO: Add course weight check for invalid input
+
+                        EditText assessmentNameField = (EditText) dialog.getCustomView().findViewById(R.id.assessment_name_field);
+                        EditText assessmentWeightField = (EditText) dialog.getCustomView().findViewById(R.id.assessment_weight_field);
+
+                        ASSESSMENTS[assessmentIndex] = new Assessment();
+                        ASSESSMENTS[assessmentIndex].setName(assessmentNameField.getText().toString());
+
+                        dialog.dismiss();
+
+                        row.setText(ASSESSMENTS[assessmentIndex].getName());
+                        row.setTextColor(Color.parseColor("#000000"));
+
+                        addAssessmentRow();
+                    }
+                })
+                .onNegative(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        dialog.dismiss();
+                    }
+                })
+                .build();
+
+        final View positiveAction = dialog.getActionButton(DialogAction.POSITIVE);
+        positiveAction.setEnabled(false);
+
+        final EditText assessmentNameField = (EditText) dialog.getCustomView().findViewById(R.id.assessment_name_field);
+
+        // Edit a selection
+        if (ASSESSMENTS[assessmentIndex] != null) {
+            assessmentNameField.setText(ASSESSMENTS[assessmentIndex].getName());
+        }
+
+        assessmentNameField.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                positiveAction.setEnabled(true);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        dialog.show();
+    }
+
+    public void addAssessmentRow() {
 
         if (assessmentCount + 1 < MAX_ASSESSMENTS) {
+
             LinearLayout mLinearLayout = (LinearLayout) findViewById(R.id.assessment_list);
 
             View.OnClickListener addListener = new View.OnClickListener() {
                 public void onClick(View v) {
-                    addCourse(v);
+                    showAddAssessmentDialog(v);
                 }
             };
 
@@ -116,7 +220,6 @@ public class AddCourseActivity extends AppCompatActivity {
             assessmentRow.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
 
             int assessmentHeight = (int) getResources().getDimension(R.dimen.item_assessment_height);
-//            assessmentRow.getLayoutParams().width = ViewGroup.LayoutParams.WRAP_CONTENT;
             assessmentRow.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                     assessmentHeight));
 
@@ -124,16 +227,17 @@ public class AddCourseActivity extends AppCompatActivity {
             mLinearLayout.addView(assessmentRow);
             ASSESSMENT_VIEWS[assessmentCount] = assessmentRow;
 
-            // Set previous to unclickable
-            TextView startingAssessment = (TextView) findViewById(R.id.first_assessment);
-            startingAssessment.setClickable(false);
-
-            if (assessmentCount >= 1) {
-                ASSESSMENT_VIEWS[assessmentCount - 1].setClickable(false);
-            }
-
+            // Set previous to un-clickable
+//            TextView startingAssessment = (TextView) findViewById(R.id.first_assessment);
+//            startingAssessment.setClickable(false);
+//
+//            if (assessmentCount >= 1) {
+//                ASSESSMENT_VIEWS[assessmentCount - 1].setClickable(false);
+//            }
+//
             assessmentCount++;
 
+            // Scroll down automatically if the new assessment added is off screen
             final NestedScrollView mNestedScrollView = (NestedScrollView) findViewById(R.id.assessment_scroll);
             mNestedScrollView.post(new Runnable() {
                 @Override
@@ -141,7 +245,6 @@ public class AddCourseActivity extends AppCompatActivity {
                     mNestedScrollView.fullScroll(ScrollView.FOCUS_DOWN);
                 }
             });
-
         }
     }
 
@@ -149,23 +252,7 @@ public class AddCourseActivity extends AppCompatActivity {
     public boolean onSupportNavigateUp() {
 
         if (getValues()) {
-            new MaterialDialog.Builder(this)
-                    .content(R.string.course_discard_dialog)
-                    .positiveText(R.string.keep_editing)
-                    .negativeText(R.string.discard)
-                    .onPositive(new MaterialDialog.SingleButtonCallback() {
-                        @Override
-                        public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                            dialog.dismiss();
-                        }
-                    })
-                    .onNegative(new MaterialDialog.SingleButtonCallback() {
-                        @Override
-                        public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                            finish(); // Destroy this activity
-                        }
-                    })
-                    .show();
+            showDiscardDialog();
         } else {
             finish();
         }
@@ -179,23 +266,7 @@ public class AddCourseActivity extends AppCompatActivity {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
 
             if (getValues()) {
-                new MaterialDialog.Builder(this)
-                        .content(R.string.course_discard_dialog)
-                        .positiveText(R.string.keep_editing)
-                        .negativeText(R.string.discard)
-                        .onPositive(new MaterialDialog.SingleButtonCallback() {
-                            @Override
-                            public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                                dialog.dismiss();
-                            }
-                        })
-                        .onNegative(new MaterialDialog.SingleButtonCallback() {
-                            @Override
-                            public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                                finish(); // Destroy this activity
-                            }
-                        })
-                        .show();
+                showDiscardDialog();
             } else {
                 finish();
             }

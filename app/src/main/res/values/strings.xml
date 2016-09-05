@@ -17,11 +17,11 @@
     <string name="discard">DISCARD</string>
     <string name="keep_editing">KEEP EDITING</string>
 
-    <string name="add_assessment_title">Add assessment</string>
+    <string name="add_assessment_title">Add a new assessment</string>
     <string name="add_assessment_name">Assessment</string>
     <string name="add_assessment_weight">Weight</string>
     <string name="add_assessment_grade">Grade</string>
+    <string name="add_assessment_add">ADD</string>
+    <string name="add_assessment_cancel">@android:string/cancel</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
