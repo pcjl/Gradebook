@@ -241,13 +241,9 @@ public class AddCourseActivity extends AppCompatActivity {
         final EditText assessmentNameField = (EditText) dialog.getCustomView().findViewById(R.id.assessment_name_field);
 
         // Edit a selection
-        try {
-            if (edit) {
-                dialog.setTitle(R.string.edit_assessment_title);
-                assessmentNameField.setText(ASSESSMENTS.get(assessmentIndex).getName());
-            }
-        } catch (Exception ex) {
-            System.err.println(ex);
+        if (edit) {
+            dialog.setTitle(R.string.edit_assessment_title);
+            assessmentNameField.setText(ASSESSMENTS.get(assessmentIndex).getName());
         }
 
         assessmentNameField.addTextChangedListener(new TextWatcher() {
