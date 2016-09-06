@@ -165,15 +165,13 @@ public class AddCourseActivity extends AppCompatActivity {
                                             return false;
                                         }
                                     });
-                                }
-                                else if (rowIndex == 0) {
+                                } else if (rowIndex == 0) {
 
                                     ASSESSMENTS.set(rowIndex, ASSESSMENTS.get(rowIndex));
                                     ASSESSMENT_VIEWS.get(rowIndex).setText(ASSESSMENTS.get(1).getName());
                                     parent.removeView(parent.getChildAt(1));
                                     ASSESSMENT_VIEWS.remove(1);
-                                }
-                                else {
+                                } else {
                                     ASSESSMENT_VIEWS.remove(rowIndex);
                                     parent.removeView(row);
                                 }
@@ -196,6 +194,8 @@ public class AddCourseActivity extends AppCompatActivity {
         final TextView row = (TextView) v;
         final int assessmentIndex = mLinearLayout.indexOfChild(v);
 
+        final boolean edit = !ASSESSMENTS.isEmpty() && (assessmentIndex < ASSESSMENTS.size());
+
         MaterialDialog dialog = new MaterialDialog.Builder(this)
                 .title(R.string.add_assessment_title)
                 .customView(R.layout.dialog_add_assessment, false)
@@ -210,15 +210,21 @@ public class AddCourseActivity extends AppCompatActivity {
                         EditText assessmentNameField = (EditText) dialog.getCustomView().findViewById(R.id.assessment_name_field);
                         EditText assessmentWeightField = (EditText) dialog.getCustomView().findViewById(R.id.assessment_weight_field);
 
-                        ASSESSMENTS.add(new Assessment());
-                        ASSESSMENTS.get(assessmentIndex).setName(assessmentNameField.getText().toString());
+                        Assessment newAssessment = new Assessment();
+                        newAssessment.setName(assessmentNameField.getText().toString());
 
                         dialog.dismiss();
 
-                        row.setText(ASSESSMENTS.get(assessmentIndex).getName());
+                        row.setText(newAssessment.getName());
                         row.setTextColor(Color.parseColor("#000000"));
 
-                        addAssessmentRow();
+                        if (!edit) {
+                            ASSESSMENTS.add(newAssessment);
+                            addAssessmentRow();
+                        } else if (edit) {
+                            int rowIndex = mLinearLayout.indexOfChild(row);
+                            ASSESSMENTS.set(rowIndex, newAssessment);
+                        }
                     }
                 })
                 .onNegative(new MaterialDialog.SingleButtonCallback() {
@@ -236,7 +242,7 @@ public class AddCourseActivity extends AppCompatActivity {
 
         // Edit a selection
         try {
-            if (!ASSESSMENTS.isEmpty() && ASSESSMENTS.get(assessmentIndex) != null) {
+            if (edit) {
                 dialog.setTitle(R.string.edit_assessment_title);
                 assessmentNameField.setText(ASSESSMENTS.get(assessmentIndex).getName());
             }
