@@ -144,18 +144,34 @@ public class AddCourseActivity extends AppCompatActivity {
 
                                 int rowIndex = mLinearLayout.indexOfChild(row);
                                 ViewGroup parent = ((ViewGroup) row.getParent());
-                                
+
                                 if (rowIndex == 0 && ASSESSMENTS.size() == 1) {
                                     ASSESSMENT_VIEWS.get(rowIndex).setText(R.string.button_add_assessment);
                                     ASSESSMENT_VIEWS.get(rowIndex).setTextColor(Color.parseColor("#808080"));
                                     parent.removeView(parent.getChildAt(rowIndex + 1));
+
+                                    // Set again click behavior
+                                    ASSESSMENT_VIEWS.get(rowIndex).setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            showAddAssessmentDialog(v);
+                                        }
+                                    });
+
+                                    ASSESSMENT_VIEWS.get(rowIndex).setOnLongClickListener(new View.OnLongClickListener() {
+                                        @Override
+                                        public boolean onLongClick(View v) {
+                                            // do nothing
+                                            return false;
+                                        }
+                                    });
                                 }
                                 else if (rowIndex == 0) {
 
-                                    // TODO: Fix layout bug when user deletes first assessment while there are more assessments after
-                                    parent.getChildAt(1).requestLayout();
-                                    parent.removeView(parent.getChildAt(rowIndex));
-                                    ASSESSMENT_VIEWS.remove(rowIndex);
+                                    ASSESSMENTS.set(rowIndex, ASSESSMENTS.get(rowIndex));
+                                    ASSESSMENT_VIEWS.get(rowIndex).setText(ASSESSMENTS.get(1).getName());
+                                    parent.removeView(parent.getChildAt(1));
+                                    ASSESSMENT_VIEWS.remove(1);
                                 }
                                 else {
                                     ASSESSMENT_VIEWS.remove(rowIndex);
