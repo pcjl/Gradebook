@@ -1,8 +1,16 @@
 package us.philipli.gradebook.sqlite.helper;
 
+import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import us.philipli.gradebook.course.Assessment;
 
 /**
  * This is an SQL helper class
@@ -69,6 +77,239 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        // on upgrade drop older tables
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_STUDENTS);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_COURSES);
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_ASSESSMENTS);
 
+        // create new tables
+        onCreate(db);
+    }
+
+
+    // CRUD Operations
+    /*
+    * Create a new student and return its id.
+    * Return: user id
+     */
+    public long createStudent(Students student) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(KEY_USER_NAME, student.getName());
+        values.put(KEY_GPA, student.getGpa());
+        values.put(KEY_INSTITUTION, student.getInstitution());
+
+        // insert row
+        long User_id = db.insert(TABLE_STUDENTS, null, values);
+
+        return User_id;
+    }
+
+    /*
+    * Get single student
+     */
+    public Students getStudent(long user_id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        String select = "SELECT * FROM " + TABLE_STUDENTS + " WHERE " + KEY_USER_ID +
+                " = " + user_id;
+
+        Log.e(LOG, select);
+
+        Cursor c = db.rawQuery(select, null);
+
+        if (c != null) {
+            c.moveToFirst();
+        }
+
+        Students student = new Students();
+        student.setId(c.getInt(c.getColumnIndex(KEY_USER_ID)));
+        student.setName(c.getString(c.getColumnIndex(KEY_USER_NAME)));
+        student.setGpa(c.getLong(c.getColumnIndex(KEY_GPA)));
+        student.setInstitution(c.getString(c.getColumnIndex(KEY_INSTITUTION)));
+
+        return student;
+    }
+
+    /*
+    * Updating a student
+     */
+    public int updateStudent(Students student) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(KEY_USER_NAME, student.getName());
+        values.put(KEY_GPA, student.getGpa());
+        values.put(KEY_INSTITUTION, student.getInstitution());
+
+        // updating row
+        return db.update(TABLE_STUDENTS, values, KEY_USER_ID + " =?",
+                new String[] {String.valueOf(student.getId())});
+    }
+
+    /*
+    * Creating a course with a list of assessments
+     */
+    public void createCourse(Courses course, Assessments[] assessments) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(KEY_COURSE_CODE, course.getCode());
+        values.put(KEY_COURSE_NAME, course.getName());
+        values.put(KEY_COURSE_WEIGHT, course.getWeight());
+        values.put(KEY_INCLUDE, course.getInclude());
+        values.put(KEY_COLOR, course.getColor());
+        values.put(KEY_COURSE_MARKS, course.getMarks());
+
+        // insert row
+        db.insert(TABLE_COURSES, null, values);
+
+        // assigning assessments to course
+        for (Assessments assessment : assessments) {
+            createAssessment(assessment);
+        }
+    }
+
+    // Fetching a course
+
+    public Courses getCourse(String code) {
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        String select = "SELECT * FROM " + TABLE_COURSES + " WHERE " + KEY_COURSE_CODE +
+                " = " + code;
+
+        Cursor c = db.rawQuery(select, null);
+
+        if (c != null)
+            c.moveToFirst();
+
+        Courses course = new Courses();
+        course.setCode(c.getString(c.getColumnIndex(KEY_COURSE_CODE)));
+        course.setName(c.getString(c.getColumnIndex(KEY_COURSE_NAME)));
+        course.setWeight(c.getLong(c.getColumnIndex(KEY_COURSE_WEIGHT)));
+        course.setInclude(c.getInt(c.getColumnIndex(KEY_INCLUDE)));
+        course.setColor(c.getString(c.getColumnIndex(KEY_COLOR)));
+        course.setMarks(c.getLong(c.getColumnIndex(KEY_COURSE_MARKS)));
+
+        return course;
+    }
+
+    // Fetching all courses
+
+    public List<Courses> getAllCourses() {
+        List<Courses> courses = new ArrayList<Courses>();
+        String select = "SELECT * FROM " + TABLE_COURSES;
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor c = db.rawQuery(select, null);
+
+        if (c.moveToFirst()) {
+            do {
+                Courses course = new Courses();
+                course.setCode(c.getString(c.getColumnIndex(KEY_COURSE_CODE)));
+                course.setName(c.getString(c.getColumnIndex(KEY_COURSE_NAME)));
+                course.setWeight(c.getLong(c.getColumnIndex(KEY_COURSE_WEIGHT)));
+                course.setInclude(c.getInt(c.getColumnIndex(KEY_INCLUDE)));
+                course.setColor(c.getString(c.getColumnIndex(KEY_COLOR)));
+                course.setMarks(c.getLong(c.getColumnIndex(KEY_COURSE_MARKS)));
+
+                courses.add(course);
+            } while (c.moveToNext());
+        }
+        return courses;
+    }
+
+    // Deleting a course
+
+    public void deleteCourse(String code) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        db.delete(TABLE_COURSES, KEY_COURSE_CODE + " =?",
+                new String[] {String.valueOf(code)});
+    }
+
+    // Creating an assessment
+
+    public void createAssessment(Assessments assessment) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(KEY_ASSESSMENTS_NAME, assessment.getName());
+        values.put(KEY_COURSE_CODE, assessment.getCode());
+        values.put(KEY_ASSESSMENTS_WEIGHT, assessment.getWeight());
+        values.put(KEY_ASSESSMENTS_MARKS, assessment.getMarks());
+
+        db.insert(TABLE_ASSESSMENTS, null, values);
+    }
+
+    // Fetching an assessment
+
+    public Assessments getAssessment(String name, String code) {
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        String select = "SELECT * FROM " + TABLE_ASSESSMENTS + " WHERE " + KEY_ASSESSMENTS_NAME +
+                " = " + name + " AND " + KEY_COURSE_CODE + " = " + code;
+
+        Cursor c = db.rawQuery(select, null);
+
+        if (c != null)
+            c.moveToFirst();
+
+        Assessments assessment = new Assessments();
+        assessment.setName(c.getString(c.getColumnIndex(KEY_ASSESSMENTS_NAME)));
+        assessment.setCode(c.getString(c.getColumnIndex(KEY_COURSE_CODE)));
+        assessment.setWeight(c.getLong(c.getColumnIndex(KEY_ASSESSMENTS_WEIGHT)));
+        assessment.setMarks(c.getLong(c.getColumnIndex(KEY_ASSESSMENTS_MARKS)));
+
+        return assessment;
+    }
+
+    // Fetching all assessments under a course
+
+    public List<Assessments> getAllAssessmets(String code) {
+        List<Assessments> assessments = new ArrayList<Assessments>();
+        String select = "SELECT * FROM " + TABLE_ASSESSMENTS + " WHERE " +
+                KEY_COURSE_CODE + " = " + code;
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor c = db.rawQuery(select, null);
+
+        if (c.moveToFirst()) {
+            do {
+                Assessments assessment = new Assessments();
+                assessment.setName(c.getString(c.getColumnIndex(KEY_ASSESSMENTS_NAME)));
+                assessment.setCode(c.getString(c.getColumnIndex(KEY_COURSE_CODE)));
+                assessment.setWeight(c.getLong(c.getColumnIndex(KEY_ASSESSMENTS_WEIGHT)));
+                assessment.setMarks(c.getLong(c.getColumnIndex(KEY_ASSESSMENTS_MARKS)));
+
+                assessments.add(assessment);
+            } while (c.moveToNext());
+        }
+        return assessments;
+    }
+
+    // Deleting an assessment
+
+    public void deleteAssessment(String name, String code) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        db.delete(TABLE_ASSESSMENTS, KEY_ASSESSMENTS_NAME + " =? and " + KEY_COURSE_CODE +
+        " =?", new String[] {name, code});
+    }
+
+    // Updating an assessment
+
+    public int updateAssessment(Assessments assessment) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(KEY_ASSESSMENTS_NAME, assessment.getName());
+        values.put(KEY_COURSE_CODE, assessment.getCode());
+        values.put(KEY_ASSESSMENTS_WEIGHT, assessment.getWeight());
+        values.put(KEY_ASSESSMENTS_MARKS, assessment.getMarks());
+
+        return db.update(TABLE_ASSESSMENTS, values,  KEY_ASSESSMENTS_NAME + " =? and " + KEY_COURSE_CODE +
+                " =?", new String[] {assessment.getName(), assessment.getCode()});
     }
 }
