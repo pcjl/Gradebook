@@ -17,6 +17,9 @@ import us.philipli.gradebook.course.Assessment;
  */
 
 public class DatabaseHelper extends SQLiteOpenHelper {
+
+    private static DatabaseHelper sInstance;
+
     private static final String LOG = "DatabaseHelper";
     private static final int DATABASE_VERSION = 1;
     private static final String DATABASE_NAME = "gradeManager";
@@ -62,7 +65,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             " NUMERIC, " + KEY_ASSESSMENTS_MARKS + " NUMERIC, PRIMARY KEY (" + KEY_ASSESSMENTS_NAME +
             " , " + KEY_COURSE_CODE + "))";
 
-    public DatabaseHelper(Context context) {
+    public static synchronized DatabaseHelper getsInstance(Context context) {
+
+        if (sInstance == null) {
+            sInstance = new DatabaseHelper(context.getApplicationContext());
+        }
+        return sInstance;
+    }
+
+    private DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
 
     }
