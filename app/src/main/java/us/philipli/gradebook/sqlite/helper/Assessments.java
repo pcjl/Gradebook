@@ -1,7 +1,5 @@
 package us.philipli.gradebook.sqlite.helper;
 
-import us.philipli.gradebook.course.Assessment;
-
 /**
  * An contract class that defines Assessment table.
  */
@@ -9,17 +7,17 @@ import us.philipli.gradebook.course.Assessment;
 public class Assessments {
     String name; // Primary key
     String code; // Primary key; Course code
-    long weight;
-    long marks;
+    double weight;
+    double grade;
 
     // constructors
     public Assessments() {}
 
-    public Assessments(String name, String code, long weight, long marks) {
+    public Assessments(String name, String code, double weight, double grade) {
         this.name = name;
         this.code = code;
         this.weight = weight;
-        this.marks = marks;
+        this.grade = grade;
     }
 
     // setters
@@ -27,17 +25,17 @@ public class Assessments {
 
     public void setCode(String code) {this.code = code;}
 
-    public void setWeight(long weight) {this.weight = weight;}
+    public void setWeight(double weight) {this.weight = weight;}
 
-    public void setMarks(long marks) {this.marks = marks;}
+    public void setGrade(double grade) {this.grade = grade;}
 
     // getters
     public String getName() {return this.name;}
 
     public String getCode() {return this.code;}
 
-    public long getWeight() {return this.weight;}
+    public double getWeight() {return this.weight;}
 
-    public long getMarks() {return this.marks;}
+    public double getGrade() {return this.grade;}
 
 }

@@ -213,6 +213,10 @@ public class AddCourseActivity extends AppCompatActivity {
                         Assessment newAssessment = new Assessment();
                         newAssessment.setName(assessmentNameField.getText().toString());
 
+
+
+
+
                         dialog.dismiss();
 
                         row.setText(newAssessment.getName());
