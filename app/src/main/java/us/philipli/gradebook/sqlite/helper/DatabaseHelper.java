@@ -10,6 +10,9 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.List;
 
+import us.philipli.gradebook.course.Assessment;
+import us.philipli.gradebook.course.Course;
+
 /**
  * This is an SQL helper class
  */
@@ -19,7 +22,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static DatabaseHelper sInstance;
 
     private static final String LOG = "DatabaseHelper";
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
     private static final String DATABASE_NAME = "gradeManager";
 
     // Table Names
@@ -160,12 +163,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     /*
     * Creating a course with a list of assessments
      */
-    public void createCourse(Courses course, Assessments[] assessments) {
+    public void createCourse(Course course, Assessment[]assessments) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        values.put(KEY_COURSE_CODE, course.getCode());
-        values.put(KEY_COURSE_NAME, course.getName());
+        values.put(KEY_COURSE_CODE, course.getCourseCode());
+        values.put(KEY_COURSE_NAME, course.getCourseName());
         values.put(KEY_COURSE_WEIGHT, course.getWeight());
         values.put(KEY_INCLUDE, course.getInclude());
         values.put(KEY_COLOR, course.getColor());
@@ -175,14 +178,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.insert(TABLE_COURSES, null, values);
 
         // assigning assessments to course
-        for (Assessments assessment : assessments) {
+        for (Assessment assessment : assessments) {
             createAssessment(assessment);
         }
     }
 
     // Fetching a course
 
-    public Courses getCourse(String code) {
+    public Course getCourse(String code) {
         SQLiteDatabase db = this.getReadableDatabase();
 
         String select = "SELECT * FROM " + TABLE_COURSES + " WHERE " + KEY_COURSE_CODE +
@@ -193,9 +196,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         if (c != null)
             c.moveToFirst();
 
-        Courses course = new Courses();
-        course.setCode(c.getString(c.getColumnIndex(KEY_COURSE_CODE)));
-        course.setName(c.getString(c.getColumnIndex(KEY_COURSE_NAME)));
+        Course course = new Course();
+        course.setCourseCode(c.getString(c.getColumnIndex(KEY_COURSE_CODE)));
+        course.setCourseName(c.getString(c.getColumnIndex(KEY_COURSE_NAME)));
         course.setWeight(c.getLong(c.getColumnIndex(KEY_COURSE_WEIGHT)));
         course.setInclude(c.getInt(c.getColumnIndex(KEY_INCLUDE)));
         course.setColor(c.getString(c.getColumnIndex(KEY_COLOR)));
@@ -206,8 +209,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     // Fetching all courses
 
-    public List<Courses> getAllCourses() {
-        List<Courses> courses = new ArrayList<Courses>();
+    public List<Course> getAllCourses() {
+        List<Course> courses = new ArrayList<Course>();
         String select = "SELECT * FROM " + TABLE_COURSES;
 
         SQLiteDatabase db = this.getReadableDatabase();
@@ -215,9 +218,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         if (c.moveToFirst()) {
             do {
-                Courses course = new Courses();
-                course.setCode(c.getString(c.getColumnIndex(KEY_COURSE_CODE)));
-                course.setName(c.getString(c.getColumnIndex(KEY_COURSE_NAME)));
+                Course course = new Course();
+                course.setCourseCode(c.getString(c.getColumnIndex(KEY_COURSE_CODE)));
+                course.setCourseName(c.getString(c.getColumnIndex(KEY_COURSE_NAME)));
                 course.setWeight(c.getLong(c.getColumnIndex(KEY_COURSE_WEIGHT)));
                 course.setInclude(c.getInt(c.getColumnIndex(KEY_INCLUDE)));
                 course.setColor(c.getString(c.getColumnIndex(KEY_COLOR)));
@@ -240,7 +243,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     // Creating an assessment
 
-    public void createAssessment(Assessments assessment) {
+    public void createAssessment(Assessment assessment) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
@@ -254,7 +257,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     // Fetching an assessment
 
-    public Assessments getAssessment(String name, String code) {
+    public Assessment getAssessment(String name, String code) {
         SQLiteDatabase db = this.getReadableDatabase();
 
         String select = "SELECT * FROM " + TABLE_ASSESSMENTS + " WHERE " + KEY_ASSESSMENTS_NAME +
@@ -265,7 +268,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         if (c != null)
             c.moveToFirst();
 
-        Assessments assessment = new Assessments();
+        Assessment assessment = new Assessment();
         assessment.setName(c.getString(c.getColumnIndex(KEY_ASSESSMENTS_NAME)));
         assessment.setCode(c.getString(c.getColumnIndex(KEY_COURSE_CODE)));
         assessment.setWeight(c.getLong(c.getColumnIndex(KEY_ASSESSMENTS_WEIGHT)));
@@ -276,8 +279,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     // Fetching all assessments under a course
 
-    public List<Assessments> getAllAssessmets(String code) {
-        List<Assessments> assessments = new ArrayList<Assessments>();
+    public List<Assessment> getAllAssessmets(String code) {
+        List<Assessment> assessments = new ArrayList<Assessment>();
         String select = "SELECT * FROM " + TABLE_ASSESSMENTS + " WHERE " +
                 KEY_COURSE_CODE + " = " + code;
 
@@ -286,7 +289,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         if (c.moveToFirst()) {
             do {
-                Assessments assessment = new Assessments();
+                Assessment assessment = new Assessment();
                 assessment.setName(c.getString(c.getColumnIndex(KEY_ASSESSMENTS_NAME)));
                 assessment.setCode(c.getString(c.getColumnIndex(KEY_COURSE_CODE)));
                 assessment.setWeight(c.getLong(c.getColumnIndex(KEY_ASSESSMENTS_WEIGHT)));
@@ -309,7 +312,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     // Updating an assessment
 
-    public int updateAssessment(Assessments assessment) {
+    public int updateAssessment(Assessment assessment) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();

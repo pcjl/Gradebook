@@ -6,6 +6,9 @@ public class Assessment {
     private double weight;
     private double grade;
 
+    // Added after merge
+    String code;
+
     public Assessment() {
 
     }
@@ -33,5 +36,10 @@ public class Assessment {
     public void setGrade(double grade) {
         this.grade = grade;
     }
+
+    // Added after merge.
+    public String getCode() {return this.code;}
+
+    public void setCode(String code) {this.code = code;}
 
 }
