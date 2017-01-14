@@ -66,7 +66,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             " NUMERIC, " + KEY_ASSESSMENTS_MARKS + " NUMERIC, PRIMARY KEY (" + KEY_ASSESSMENTS_NAME +
             " , " + KEY_COURSE_CODE + "))";
 
-    public static synchronized DatabaseHelper getsInstance(Context context) {
+    public static synchronized DatabaseHelper getInstance(Context context) {
 
         if (sInstance == null) {
             sInstance = new DatabaseHelper(context.getApplicationContext());

@@ -7,16 +7,17 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import us.philipli.gradebook.R;
 import us.philipli.gradebook.course.Course;
 
 public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseHolder> {
 
-    private ArrayList<Course> mDataset;
+    private List<Course> mDataset;
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public CourseAdapter(ArrayList<Course> myDataset) {
+    public CourseAdapter(List<Course> myDataset) {
         mDataset = myDataset;
     }
 
