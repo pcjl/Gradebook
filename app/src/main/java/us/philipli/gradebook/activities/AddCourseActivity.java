@@ -39,7 +39,7 @@ public class AddCourseActivity extends AppCompatActivity {
 
     private String courseCode;
     private String courseName;
-    private Double courseWeight;
+    private double courseWeight = -1.0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +51,17 @@ public class AddCourseActivity extends AppCompatActivity {
 
         final TextView firstAssessment = (TextView) findViewById(R.id.first_assessment);
         ASSESSMENT_VIEWS.add(firstAssessment);
+
+        EditText courseCodeField = (EditText) findViewById(R.id.code_field);
+        courseCodeField.setText(this.courseCode);
+        courseCodeField.addTextChangedListener(new GenericTextWatcher(this, courseCodeField));
+
+        EditText courseNameField = (EditText) findViewById(R.id.name_field);
+        courseNameField.setText(this.courseName);
+        courseNameField.addTextChangedListener(new GenericTextWatcher(this, courseNameField));
+
+        EditText courseWeightField = (EditText) findViewById(R.id.weight_field);
+        courseWeightField.addTextChangedListener(new GenericTextWatcher(this, courseWeightField));
     }
 
     private void changeTransparency() {
@@ -82,25 +93,9 @@ public class AddCourseActivity extends AppCompatActivity {
         }
     }
 
-    // TODO: Watching for text changes should really be done with TextWatcher
-    // http://stackoverflow.com/questions/5702771/how-to-use-single-textwatcher-for-multiple-edittexts
     private boolean getValues() {
-
-        EditText courseCodeField = (EditText) findViewById(R.id.code_field);
-        EditText courseNameField = (EditText) findViewById(R.id.name_field);
-        EditText courseWeightField = (EditText) findViewById(R.id.weight_field);
-
-        courseCode = courseCodeField.getText().toString();
-        courseName = courseNameField.getText().toString();
-
-        try {
-            courseWeight = Double.parseDouble(courseWeightField.getText().toString());
-        } catch (Exception ex) {
-            courseWeight = 0.0;
-        }
-
-        return !(assessmentCount == 0 && courseCode.equals("")
-                && courseName.equals("") && courseWeight == 0.0);
+        return !(this.assessmentCount == 0 && (this.courseCode == null || this.courseCode.equals(""))
+                && (this.courseName == null || this.courseName.equals("")) && this.courseWeight == -1.0);
     }
 
     private void showDiscardDialog() {
@@ -382,5 +377,58 @@ public class AddCourseActivity extends AppCompatActivity {
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public void setCourseCode(String courseCode) {
+        this.courseCode = courseCode;
+    }
+
+    public void setCourseName(String courseName) {
+        this.courseName = courseName;
+    }
+
+    public void setCourseWeight(double courseWeight) {
+        this.courseWeight = courseWeight;
+    }
+}
+
+class GenericTextWatcher implements TextWatcher {
+
+    private AddCourseActivity activity;
+    private View view;
+
+    public GenericTextWatcher(AddCourseActivity activity, View view) {
+        this.activity = activity;
+        this.view = view;
+    }
+
+    @Override
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+    }
+
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+    }
+
+    @Override
+    public void afterTextChanged(Editable s) {
+        String text = s.toString();
+        switch (this.view.getId()) {
+            case R.id.code_field:
+                this.activity.setCourseCode(text);
+                break;
+            case R.id.name_field:
+                this.activity.setCourseName(text);
+                break;
+            case R.id.weight_field:
+                try {
+                    this.activity.setCourseWeight(Double.parseDouble(text));
+                } catch (Exception e) {
+                    this.activity.setCourseWeight(-1.0);
+                }
+                break;
+        }
     }
 }
