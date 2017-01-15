@@ -37,6 +37,9 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseHold
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
         holder.textview_course_name.setText(mDataset.get(position).getCourseName());
+        holder.textview_course_code.setText(mDataset.get(position).getCourseCode());
+        holder.textview_course_weight.setText(String.valueOf(mDataset.get(position).getWeight()));
+        holder.textview_course_mark.setText(String.valueOf(mDataset.get(position).getGrade()));
     }
 
     // Return the size of your dataset (invoked by the layout manager)
