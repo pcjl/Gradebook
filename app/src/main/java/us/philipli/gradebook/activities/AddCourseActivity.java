@@ -1,5 +1,7 @@
 package us.philipli.gradebook.activities;
 
+import android.content.ContentValues;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v4.view.MenuItemCompat;
@@ -15,10 +17,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,6 +33,7 @@ import java.util.ArrayList;
 
 import us.philipli.gradebook.R;
 import us.philipli.gradebook.course.Assessment;
+import us.philipli.gradebook.sqlite.helper.DatabaseHelper;
 
 public class AddCourseActivity extends AppCompatActivity {
 
@@ -40,6 +45,7 @@ public class AddCourseActivity extends AppCompatActivity {
     private String courseCode;
     private String courseName;
     private double courseWeight = -1.0;
+    private boolean include = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +68,14 @@ public class AddCourseActivity extends AppCompatActivity {
 
         EditText courseWeightField = (EditText) findViewById(R.id.weight_field);
         courseWeightField.addTextChangedListener(new GenericTextWatcher(this, courseWeightField));
+
+        Switch includeSwitch = (Switch) findViewById(R.id.gpa_include_switch);
+        includeSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                include = isChecked;
+            }
+        });
     }
 
     private void changeTransparency() {
@@ -373,6 +387,18 @@ public class AddCourseActivity extends AppCompatActivity {
                 // save
                 Toast.makeText(AddCourseActivity.this, "Data saved",
                         Toast.LENGTH_LONG).show();
+                DatabaseHelper mDatabaseHelper = DatabaseHelper.getInstance(this);
+                SQLiteDatabase db = mDatabaseHelper.getWritableDatabase();
+
+                ContentValues values = new ContentValues();
+                values.put("course_name", this.courseName);
+                values.put("course_weight", this.courseWeight);
+                values.put("include", (this.include) ? "true":"false");
+                values.put("color", "Green");
+                values.put("course_marks", "420");
+
+                db.insert("courses", null, values);
+
                 finish();
                 return true;
         }
