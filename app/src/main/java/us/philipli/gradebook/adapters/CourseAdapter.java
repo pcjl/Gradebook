@@ -48,11 +48,19 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseHold
     public class CourseHolder extends RecyclerView.ViewHolder {
 
         public TextView textview_course_name;
+        public TextView textview_course_code;
+        public TextView textview_course_weight;
+        public TextView textview_course_mark;
+
 
         public CourseHolder(View itemView) {
             super(itemView);
 
             textview_course_name = (TextView) itemView.findViewById(R.id.textview_course_name);
+            textview_course_code = (TextView) itemView.findViewById(R.id.textview_course_code);
+            textview_course_weight = (TextView) itemView.findViewById(R.id.textview_course_weight);
+            textview_course_mark = (TextView) itemView.findViewById(R.id.textview_course_mark);
+
 
         }
     }
