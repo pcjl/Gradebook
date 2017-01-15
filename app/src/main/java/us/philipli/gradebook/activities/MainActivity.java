@@ -80,16 +80,6 @@ public class MainActivity extends AppCompatActivity {
 
         // Insert into database
         SQLiteDatabase db;
-        db = setUpWriteDatabase();
-
-        ContentValues values = new ContentValues();
-        values.put("course_name", "TEST");
-        values.put("course_weight", "0.5");
-        values.put("include", "1");
-        values.put("color", "Green");
-        values.put("course_marks", "420");
-
-        long newRowId = db.insert("courses", null, values);
 
         // Read from database
         db = setUpReadableDatabase();
@@ -102,14 +92,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private SQLiteDatabase setUpReadableDatabase() {
-
-        mDatabaseHelper = DatabaseHelper.getInstance(this);
-        SQLiteDatabase db = mDatabaseHelper.getReadableDatabase();
-
-        return db;
-    }
-
-    private SQLiteDatabase setUpWriteDatabase() {
 
         mDatabaseHelper = DatabaseHelper.getInstance(this);
         SQLiteDatabase db = mDatabaseHelper.getReadableDatabase();
