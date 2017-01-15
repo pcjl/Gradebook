@@ -33,6 +33,7 @@ import java.util.ArrayList;
 
 import us.philipli.gradebook.R;
 import us.philipli.gradebook.course.Assessment;
+import us.philipli.gradebook.course.Course;
 import us.philipli.gradebook.sqlite.helper.DatabaseHelper;
 
 public class AddCourseActivity extends AppCompatActivity {
@@ -45,7 +46,7 @@ public class AddCourseActivity extends AppCompatActivity {
     private String courseCode;
     private String courseName;
     private double courseWeight = -1.0;
-    private boolean include = true;
+    private int include = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,7 +74,7 @@ public class AddCourseActivity extends AppCompatActivity {
         includeSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                include = isChecked;
+                include = (isChecked) ? 1:0;
             }
         });
     }
@@ -388,16 +389,16 @@ public class AddCourseActivity extends AppCompatActivity {
                 Toast.makeText(AddCourseActivity.this, "Data saved",
                         Toast.LENGTH_LONG).show();
                 DatabaseHelper mDatabaseHelper = DatabaseHelper.getInstance(this);
-                SQLiteDatabase db = mDatabaseHelper.getWritableDatabase();
 
-                ContentValues values = new ContentValues();
-                values.put("course_name", this.courseName);
-                values.put("course_weight", this.courseWeight);
-                values.put("include", (this.include) ? "true":"false");
-                values.put("color", "Green");
-                values.put("course_marks", "420");
+                Course newCourse = new Course();
+                newCourse.setCourseCode(this.courseCode);
+                newCourse.setCourseName(this.courseName);
+                newCourse.setWeight(this.courseWeight);
+                newCourse.setInclude((this.include));
+                newCourse.setColor("Green");
+                newCourse.setGrade(100.0d);
 
-                db.insert("courses", null, values);
+                mDatabaseHelper.createCourse(newCourse, ASSESSMENTS);
 
                 finish();
                 return true;

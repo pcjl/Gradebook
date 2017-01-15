@@ -163,7 +163,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     /*
     * Creating a course with a list of assessments
      */
-    public void createCourse(Course course, Assessment[]assessments) {
+    public void createCourse(Course course, ArrayList<Assessment> assessments) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
