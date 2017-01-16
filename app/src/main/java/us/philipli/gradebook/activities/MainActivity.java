@@ -3,6 +3,7 @@ package us.philipli.gradebook.activities;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
+import android.media.audiofx.BassBoost;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -10,6 +11,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 
 import java.util.ArrayList;
@@ -49,51 +51,51 @@ public class MainActivity extends AppCompatActivity {
         setupCoursesList();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        setupCoursesList();
+    }
+
     private void setupToolbar() {
         // Set up toolbar
-        myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
-        setSupportActionBar(myToolbar);
+        this.myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        setSupportActionBar(this.myToolbar);
 
-        if (myToolbar != null) {
+//        if (myToolbar != null) {
 
-            // Hamburger
-            // this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        // Hamburger
+        // this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-            /**
-             * http://stackoverflow.com/questions/28071763/toolbar-navigation-hamburger-icon-missing
-             */
-        }
+        /**
+         * http://stackoverflow.com/questions/28071763/toolbar-navigation-hamburger-icon-missing
+         */
+//        }
     }
 
     private void setupCoursesList() {
-        mRecyclerView = (RecyclerView) findViewById(R.id.courses_recyclerview);
+        this.mRecyclerView = (RecyclerView) findViewById(R.id.courses_recyclerview);
 
-        // use this setting to improve performance if you know that changes
+        // Use this setting to improve performance if you know that changes
         // in content do not change the layout size of the RecyclerView
-        mRecyclerView.setHasFixedSize(true);
+        this.mRecyclerView.setHasFixedSize(true);
 
         // use a linear layout manager
-        mLayoutManager = new LinearLayoutManager(this);
-        mRecyclerView.setLayoutManager(mLayoutManager);
+        this.mLayoutManager = new LinearLayoutManager(this);
+        this.mRecyclerView.setLayoutManager(mLayoutManager);
 
-        // Insert into database
-        SQLiteDatabase db;
+        setUpReadableDatabase();
 
-        // Read from database
-        db = setUpReadableDatabase();
-
-        List<Course> myDataset = mDatabaseHelper.getAllCourses();
+        List<Course> myDataset = this.mDatabaseHelper.getAllCourses();
 
         // specify an adapter (see also next example)
-        mAdapter = new CourseAdapter(myDataset);
-        mRecyclerView.setAdapter(mAdapter);
+        this.mAdapter = new CourseAdapter(myDataset);
+        this.mRecyclerView.setAdapter(this.mAdapter);
     }
 
     private SQLiteDatabase setUpReadableDatabase() {
-        mDatabaseHelper = DatabaseHelper.getInstance(this);
-        SQLiteDatabase db = mDatabaseHelper.getReadableDatabase();
-
-        return db;
+        this.mDatabaseHelper = DatabaseHelper.getInstance(this);
+        return this.mDatabaseHelper.getReadableDatabase();
     }
 
     // Menu icons are inflated just as they were with actionbar
@@ -101,6 +103,21 @@ public class MainActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu_main; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection
+        switch (item.getItemId()) {
+            case R.id.action_settings:
+                Intent intent = new Intent(this, SettingsActivity.class);
+                this.startActivity(intent);
+                break;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+
         return true;
     }
 }

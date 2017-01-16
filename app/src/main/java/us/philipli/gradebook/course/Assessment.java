@@ -39,7 +39,11 @@ public class Assessment {
     }
 
     // Added after merge.
-    public String getCode() {return this.code;}
+    public String getCode() {
+        return this.code;
+    }
 
-    public void setCode(String code) {this.code = code;}
+    public void setCode(String code) {
+        this.code = code;
+    }
 }

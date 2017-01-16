@@ -13,7 +13,7 @@ public class Course {
     private String color;
 
     public Course() {
-        this.assessments = new ArrayList<Assessment>();
+        this.assessments = new ArrayList<>();
     }
 
     public String getCourseCode() {

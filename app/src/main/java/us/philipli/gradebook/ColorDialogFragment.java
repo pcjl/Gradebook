@@ -66,6 +66,7 @@ public class ColorDialogFragment extends Fragment implements
 
     /**
      * Displays selected color in {@link SelectedItemView} view.
+     *
      * @param selectedItem selected {@link SelectableColor} object containing: id, name and color value.
      */
     @Override

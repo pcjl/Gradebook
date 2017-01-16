@@ -157,7 +157,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         // updating row
         return db.update(TABLE_STUDENTS, values, KEY_USER_ID + " =?",
-                new String[] {String.valueOf(student.getId())});
+                new String[]{String.valueOf(student.getId())});
     }
 
     /*
@@ -238,7 +238,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
 
         db.delete(TABLE_COURSES, KEY_COURSE_CODE + " =?",
-                new String[] {String.valueOf(code)});
+                new String[]{String.valueOf(code)});
     }
 
     // Creating an assessment
@@ -307,7 +307,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
 
         db.delete(TABLE_ASSESSMENTS, KEY_ASSESSMENTS_NAME + " =? and " + KEY_COURSE_CODE +
-        " =?", new String[] {name, code});
+                " =?", new String[]{name, code});
     }
 
     // Updating an assessment
@@ -321,7 +321,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(KEY_ASSESSMENTS_WEIGHT, assessment.getWeight());
         values.put(KEY_ASSESSMENTS_MARKS, assessment.getGrade());
 
-        return db.update(TABLE_ASSESSMENTS, values,  KEY_ASSESSMENTS_NAME + " =? and " + KEY_COURSE_CODE +
-                " =?", new String[] {assessment.getName(), assessment.getCode()});
+        return db.update(TABLE_ASSESSMENTS, values, KEY_ASSESSMENTS_NAME + " =? and " + KEY_COURSE_CODE +
+                " =?", new String[]{assessment.getName(), assessment.getCode()});
     }
 }

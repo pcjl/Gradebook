@@ -394,7 +394,7 @@ public class AddCourseActivity extends AppCompatActivity {
                             })
                             .show();
                 } else {
-                    Toast.makeText(AddCourseActivity.this, "Data Saved!",
+                    Toast.makeText(AddCourseActivity.this, R.string.course_saved,
                             Toast.LENGTH_LONG).show();
                     DatabaseHelper mDatabaseHelper = DatabaseHelper.getInstance(this);
 
@@ -403,7 +403,7 @@ public class AddCourseActivity extends AppCompatActivity {
                     newCourse.setCourseName(this.courseName);
                     newCourse.setWeight(this.courseWeight);
                     newCourse.setInclude((this.include));
-                    newCourse.setColor("Green");
+                    newCourse.setColor("green");
                     newCourse.setGrade(100.0d);
 
                     mDatabaseHelper.createCourse(newCourse, ASSESSMENTS);
@@ -413,10 +413,7 @@ public class AddCourseActivity extends AppCompatActivity {
                 }
         }
 
-        return super.
-
-                onOptionsItemSelected(item);
-
+        return super.onOptionsItemSelected(item);
     }
 
     public void setCourseCode(String courseCode) {
@@ -443,12 +440,10 @@ class GenericTextWatcher implements TextWatcher {
 
     @Override
     public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
     }
 
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int count) {
-
     }
 
     @Override
