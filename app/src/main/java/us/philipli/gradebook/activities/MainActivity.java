@@ -21,7 +21,6 @@ import us.philipli.gradebook.course.Course;
 import us.philipli.gradebook.sqlite.helper.DatabaseHelper;
 
 public class MainActivity extends AppCompatActivity {
-
     // Toolbar
     private Toolbar myToolbar;
 
@@ -39,10 +38,10 @@ public class MainActivity extends AppCompatActivity {
         setupToolbar();
 
         // Set up floating action button
-        FloatingActionButton myFab = (FloatingActionButton)  findViewById(R.id.fab);
+        FloatingActionButton myFab = (FloatingActionButton) findViewById(R.id.fab);
         myFab.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Intent intent = new Intent (v.getContext(), AddCourseActivity.class);
+                Intent intent = new Intent(v.getContext(), AddCourseActivity.class);
                 startActivity(intent);
             }
         });
@@ -50,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
         setupCoursesList();
     }
 
-    private void setupToolbar () {
+    private void setupToolbar() {
         // Set up toolbar
         myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
@@ -66,8 +65,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void setupCoursesList () {
-
+    private void setupCoursesList() {
         mRecyclerView = (RecyclerView) findViewById(R.id.courses_recyclerview);
 
         // use this setting to improve performance if you know that changes
@@ -92,7 +90,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private SQLiteDatabase setUpReadableDatabase() {
-
         mDatabaseHelper = DatabaseHelper.getInstance(this);
         SQLiteDatabase db = mDatabaseHelper.getReadableDatabase();
 

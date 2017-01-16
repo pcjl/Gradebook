@@ -4,13 +4,14 @@ public class Assessment {
 
     private String name;
     private double weight;
+    private double marksEarned;
+    private double marksTotal;
     private double grade;
 
     // Added after merge
-    String code;
+    private String code;
 
     public Assessment() {
-
     }
 
     public String getName() {
@@ -41,5 +42,4 @@ public class Assessment {
     public String getCode() {return this.code;}
 
     public void setCode(String code) {this.code = code;}
-
 }

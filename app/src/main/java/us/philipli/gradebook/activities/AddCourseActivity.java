@@ -37,10 +37,9 @@ import us.philipli.gradebook.course.Course;
 import us.philipli.gradebook.sqlite.helper.DatabaseHelper;
 
 public class AddCourseActivity extends AppCompatActivity {
-
-    final int MAX_ASSESSMENTS = 10; // total number of text views to add
+    final int MAX_ASSESSMENTS = 10; // Total number of text views to add
     final ArrayList<Assessment> ASSESSMENTS = new ArrayList<>(MAX_ASSESSMENTS);
-    final ArrayList<TextView> ASSESSMENT_VIEWS = new ArrayList<>(MAX_ASSESSMENTS); // create an empty array;
+    final ArrayList<TextView> ASSESSMENT_VIEWS = new ArrayList<>(MAX_ASSESSMENTS); // Create an empty array
     private int assessmentCount = 0;
 
     private String courseCode;
@@ -74,13 +73,12 @@ public class AddCourseActivity extends AppCompatActivity {
         includeSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                include = (isChecked) ? 1:0;
+                include = (isChecked) ? 1 : 0;
             }
         });
     }
 
     private void changeTransparency() {
-
         ImageView checkIcon = (ImageView) findViewById(R.id.check_icon);
         ImageView classIcon = (ImageView) findViewById(R.id.class_icon);
         ImageView weightIcon = (ImageView) findViewById(R.id.weight_icon);
@@ -93,7 +91,6 @@ public class AddCourseActivity extends AppCompatActivity {
     }
 
     private void setupToolBar() {
-
         // Set up toolbar
         Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
@@ -109,6 +106,7 @@ public class AddCourseActivity extends AppCompatActivity {
     }
 
     private boolean getValues() {
+        // Check if any of the input has changed
         return !(this.assessmentCount == 0 && (this.courseCode == null || this.courseCode.equals(""))
                 && (this.courseName == null || this.courseName.equals("")) && this.courseWeight == -1.0);
     }
@@ -134,7 +132,6 @@ public class AddCourseActivity extends AppCompatActivity {
     }
 
     private void showEditDeleteDialog(View v) {
-
         final LinearLayout mLinearLayout = (LinearLayout) findViewById(R.id.assessment_list);
         final View row = v;
 
@@ -143,7 +140,6 @@ public class AddCourseActivity extends AppCompatActivity {
                 .itemsCallback(new MaterialDialog.ListCallback() {
                     @Override
                     public void onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
-
                         switch (which) {
                             case 0:
                                 dialog.dismiss();
@@ -176,7 +172,6 @@ public class AddCourseActivity extends AppCompatActivity {
                                         }
                                     });
                                 } else if (rowIndex == 0) {
-
                                     ASSESSMENTS.set(rowIndex, ASSESSMENTS.get(rowIndex));
                                     ASSESSMENT_VIEWS.get(rowIndex).setText(ASSESSMENTS.get(1).getName());
                                     parent.removeView(parent.getChildAt(1));
@@ -185,6 +180,7 @@ public class AddCourseActivity extends AppCompatActivity {
                                     ASSESSMENT_VIEWS.remove(rowIndex);
                                     parent.removeView(row);
                                 }
+
                                 ASSESSMENTS.remove(rowIndex);
                                 break;
                         }
@@ -195,11 +191,8 @@ public class AddCourseActivity extends AppCompatActivity {
 
     /**
      * Shows the add assessment dialog, user can enter assessment name and assessment weight
-     *
-     * @return returns true if user saves assessment
      */
     public void showAddAssessmentDialog(View v) {
-
         final LinearLayout mLinearLayout = (LinearLayout) findViewById(R.id.assessment_list);
         final TextView row = (TextView) v;
         final int assessmentIndex = mLinearLayout.indexOfChild(v);
@@ -214,18 +207,19 @@ public class AddCourseActivity extends AppCompatActivity {
                 .onPositive(new MaterialDialog.SingleButtonCallback() {
                     @Override
                     public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-
                         // TODO: Add course weight check for invalid input
+                        // TODO: Check required fields
 
                         EditText assessmentNameField = (EditText) dialog.getCustomView().findViewById(R.id.assessment_name_field);
                         EditText assessmentWeightField = (EditText) dialog.getCustomView().findViewById(R.id.assessment_weight_field);
 
                         Assessment newAssessment = new Assessment();
                         newAssessment.setName(assessmentNameField.getText().toString());
-
-
-
-
+                        try {
+                            newAssessment.setWeight(Double.parseDouble(assessmentWeightField.getText().toString()));
+                        } catch (Exception e) {
+                            // TODO: Catch exception
+                        }
 
                         dialog.dismiss();
 
@@ -235,7 +229,7 @@ public class AddCourseActivity extends AppCompatActivity {
                         if (!edit) {
                             ASSESSMENTS.add(newAssessment);
                             addAssessmentRow();
-                        } else if (edit) {
+                        } else {
                             int rowIndex = mLinearLayout.indexOfChild(row);
                             ASSESSMENTS.set(rowIndex, newAssessment);
                         }
@@ -253,37 +247,45 @@ public class AddCourseActivity extends AppCompatActivity {
         positiveAction.setEnabled(false);
 
         final EditText assessmentNameField = (EditText) dialog.getCustomView().findViewById(R.id.assessment_name_field);
+        final EditText assessmentWeightField = (EditText) dialog.getCustomView().findViewById(R.id.assessment_weight_field);
 
         // Edit a selection
         if (edit) {
             dialog.setTitle(R.string.edit_assessment_title);
             assessmentNameField.setText(ASSESSMENTS.get(assessmentIndex).getName());
+            assessmentWeightField.setText(String.valueOf(ASSESSMENTS.get(assessmentIndex).getWeight()));
         }
 
-        assessmentNameField.addTextChangedListener(new TextWatcher() {
+        TextWatcher assessmentFieldsWatcher = new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
             }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                positiveAction.setEnabled(true);
+                // Check null?
+                String name = assessmentNameField.getText().toString();
+                String weight = assessmentWeightField.getText().toString();
+                if (!name.equals("") && !weight.equals("")) {
+                    positiveAction.setEnabled(true);
+                } else {
+                    positiveAction.setEnabled(false);
+                }
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-
             }
-        });
+        };
+
+        assessmentNameField.addTextChangedListener(assessmentFieldsWatcher);
+        assessmentWeightField.addTextChangedListener(assessmentFieldsWatcher);
 
         dialog.show();
     }
 
     public void addAssessmentRow() {
-
         if (assessmentCount + 1 < MAX_ASSESSMENTS) {
-
             LinearLayout mLinearLayout = (LinearLayout) findViewById(R.id.assessment_list);
 
             View.OnClickListener addListener = new View.OnClickListener() {
@@ -312,7 +314,6 @@ public class AddCourseActivity extends AppCompatActivity {
 
             // First one needs to be specially set
             for (int i = 0; i < ASSESSMENT_VIEWS.size() - 1; i++) {
-
                 ASSESSMENT_VIEWS.get(i).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -343,7 +344,6 @@ public class AddCourseActivity extends AppCompatActivity {
 
     @Override
     public boolean onSupportNavigateUp() {
-
         if (getValues()) {
             showDiscardDialog();
         } else {
@@ -355,9 +355,7 @@ public class AddCourseActivity extends AppCompatActivity {
     // Handle back action
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-
             if (getValues()) {
                 showDiscardDialog();
             } else {
@@ -372,7 +370,6 @@ public class AddCourseActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-
         // Add save button
         final MenuItem menuItem = menu.add(Menu.NONE, 0, Menu.NONE, R.string.action_save);
         MenuItemCompat.setShowAsAction(menuItem, MenuItem.SHOW_AS_ACTION_IF_ROOM);
@@ -382,28 +379,44 @@ public class AddCourseActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
         switch (item.getItemId()) {
             case 0:
-                // save
-                Toast.makeText(AddCourseActivity.this, "Data saved",
-                        Toast.LENGTH_LONG).show();
-                DatabaseHelper mDatabaseHelper = DatabaseHelper.getInstance(this);
+                // Save
+                if (this.courseCode == null || this.courseCode.equals("") || this.courseName == null || this.courseName.equals("") || this.courseWeight < 0) {
+                    new MaterialDialog.Builder(this)
+                            .content(R.string.course_create_warning)
+                            .positiveText(R.string.ok)
+                            .onPositive(new MaterialDialog.SingleButtonCallback() {
+                                @Override
+                                public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                    dialog.dismiss();
+                                }
+                            })
+                            .show();
+                } else {
+                    Toast.makeText(AddCourseActivity.this, "Data Saved!",
+                            Toast.LENGTH_LONG).show();
+                    DatabaseHelper mDatabaseHelper = DatabaseHelper.getInstance(this);
 
-                Course newCourse = new Course();
-                newCourse.setCourseCode(this.courseCode);
-                newCourse.setCourseName(this.courseName);
-                newCourse.setWeight(this.courseWeight);
-                newCourse.setInclude((this.include));
-                newCourse.setColor("Green");
-                newCourse.setGrade(100.0d);
+                    Course newCourse = new Course();
+                    newCourse.setCourseCode(this.courseCode);
+                    newCourse.setCourseName(this.courseName);
+                    newCourse.setWeight(this.courseWeight);
+                    newCourse.setInclude((this.include));
+                    newCourse.setColor("Green");
+                    newCourse.setGrade(100.0d);
 
-                mDatabaseHelper.createCourse(newCourse, ASSESSMENTS);
+                    mDatabaseHelper.createCourse(newCourse, ASSESSMENTS);
 
-                finish();
-                return true;
+                    finish();
+                    return true;
+                }
         }
-        return super.onOptionsItemSelected(item);
+
+        return super.
+
+                onOptionsItemSelected(item);
+
     }
 
     public void setCourseCode(String courseCode) {
@@ -420,11 +433,10 @@ public class AddCourseActivity extends AppCompatActivity {
 }
 
 class GenericTextWatcher implements TextWatcher {
-
     private AddCourseActivity activity;
     private View view;
 
-    public GenericTextWatcher(AddCourseActivity activity, View view) {
+    GenericTextWatcher(AddCourseActivity activity, View view) {
         this.activity = activity;
         this.view = view;
     }

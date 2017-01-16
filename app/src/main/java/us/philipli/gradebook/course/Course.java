@@ -3,18 +3,16 @@ package us.philipli.gradebook.course;
 import java.util.ArrayList;
 
 public class Course {
-
     private String courseCode; // Course code; The primary key.
     private String courseName;
     private double weight;
+    private int include; // This is an indicator that shows whether user wants to include this course in GPA.
     private ArrayList<Assessment> assessments;
+    private double grade; // User's grade of this course.
 
-    // Added after merge.
-    String color;
-    double grade; // User's grade of this course.
-    int include; // This is an indicator that shows whether user wants to include this course in GPA.
+    private String color;
 
-    public Course () {
+    public Course() {
         this.assessments = new ArrayList<Assessment>();
     }
 
@@ -42,8 +40,23 @@ public class Course {
         this.weight = weight;
     }
 
-    public void addAssessment(String name, double weight) {
+    public int getInclude() {
+        return this.include;
+    }
 
+    public void setInclude(int include) {
+        this.include = include;
+    }
+
+    public double getGrade() {
+        return this.grade;
+    }
+
+    public void setGrade(double grade) {
+        this.grade = grade;
+    }
+
+    public void addAssessment(String name, double weight) {
         Assessment newAssessment = new Assessment();
         newAssessment.setName(name);
         newAssessment.setWeight(weight);
@@ -51,16 +64,11 @@ public class Course {
         this.assessments.add(newAssessment);
     }
 
-    // Added after merge.
-    public String getColor() {return this.color;}
+    public String getColor() {
+        return this.color;
+    }
 
-    public void setColor(String color) {this.color = color;}
-
-    public double getGrade() {return this.grade;}
-
-    public void setGrade(double grade) {this.grade = grade;}
-
-    public int getInclude() {return this.include;}
-
-    public void setInclude(int include) {this.include = include;}
+    public void setColor(String color) {
+        this.color = color;
+    }
 }
