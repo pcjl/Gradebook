@@ -1,10 +1,13 @@
 package us.philipli.gradebook.activities;
 
 import android.app.Activity;
+import android.content.SharedPreferences;
+import android.media.audiofx.BassBoost;
 import android.os.Bundle;
 import android.preference.EditTextPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
+import android.preference.PreferenceManager;
 
 import us.philipli.gradebook.R;
 
@@ -26,10 +29,12 @@ public class SettingsActivity extends Activity {
             // Load the preferences from an XML resource
             addPreferencesFromResource(R.xml.preferences);
 
+            SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+
             EditTextPreference nameEditText = (EditTextPreference) findPreference("name");
-            nameEditText.setSummary(nameEditText.getText());
+            nameEditText.setSummary(preferences.getString("name", "DEFAULT"));
             EditTextPreference schoolEditText = (EditTextPreference) findPreference("school");
-            schoolEditText.setSummary(schoolEditText.getText());
+            schoolEditText.setSummary(preferences.getString("school", "DEFAULT"));
 
             Preference.OnPreferenceChangeListener prefListener = new Preference.OnPreferenceChangeListener() {
                 @Override

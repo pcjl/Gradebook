@@ -182,6 +182,7 @@ public class AddCourseActivity extends AppCompatActivity {
                                 }
 
                                 ASSESSMENTS.remove(rowIndex);
+                                assessmentCount--;
                                 break;
                         }
                     }
