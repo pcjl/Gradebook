@@ -1,7 +1,9 @@
 package us.philipli.gradebook.activities;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
+import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -11,6 +13,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
 import java.util.List;
 
@@ -45,6 +48,15 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+
+        TextView nameText = (TextView) findViewById(R.id.name_text);
+        // TODO: Fix on first launch, not showing the text properly (defaults to the default value)
+        nameText.setText(sharedPreferences.getString("name", getString(R.string.default_name_setting)));
+
+        TextView schoolText = (TextView) findViewById(R.id.school_text);
+        schoolText.setText(sharedPreferences.getString("school", getString(R.string.default_school_setting)));
+
         setupCoursesList();
     }
 
@@ -52,12 +64,21 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         // TODO: Use SQL cursors or something
         super.onResume();
+
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+
+        TextView nameText = (TextView) findViewById(R.id.name_text);
+        nameText.setText(sharedPreferences.getString("name", "DEFAULT"));
+
+        TextView schoolText = (TextView) findViewById(R.id.school_text);
+        schoolText.setText(sharedPreferences.getString("school", "DEFAULT"));
+
         setupCoursesList();
     }
 
     private void setupToolbar() {
         // Set up toolbar
-        this.myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        this.myToolbar = (Toolbar) findViewById(R.id.main_toolbar);
         setSupportActionBar(this.myToolbar);
 
 //        if (myToolbar != null) {

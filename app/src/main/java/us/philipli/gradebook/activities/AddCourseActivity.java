@@ -1,13 +1,11 @@
 package us.philipli.gradebook.activities;
 
-import android.content.ContentValues;
-import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -92,7 +90,7 @@ public class AddCourseActivity extends AppCompatActivity {
 
     private void setupToolBar() {
         // Set up toolbar
-        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        Toolbar myToolbar = (Toolbar) findViewById(R.id.main_toolbar);
         setSupportActionBar(myToolbar);
 
         if (myToolbar != null) {
@@ -345,10 +343,14 @@ public class AddCourseActivity extends AppCompatActivity {
     public boolean onSupportNavigateUp() {
         if (getValues()) {
             showDiscardDialog();
+            return false;
         } else {
             finish();
+            return true;
         }
-        return false;
+
+        // TODO: Was false, supposed to return true when finishes?
+//        return false;
     }
 
     // Handle back action
@@ -428,6 +430,7 @@ public class AddCourseActivity extends AppCompatActivity {
     }
 }
 
+// TODO: Need inner class or declare within outer class?
 class GenericTextWatcher implements TextWatcher {
     private AddCourseActivity activity;
     private View view;
