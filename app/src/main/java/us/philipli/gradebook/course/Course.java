@@ -52,6 +52,10 @@ public class Course {
         return this.grade;
     }
 
+    public void setGrade(double grade) {
+        this.grade = grade;
+    }
+
     public void addAssessment(String name, double weight) {
         Assessment newAssessment = new Assessment();
         newAssessment.setName(name);
