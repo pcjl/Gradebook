@@ -207,9 +207,6 @@ public class AddCourseActivity extends AppCompatActivity {
                 .onPositive(new MaterialDialog.SingleButtonCallback() {
                     @Override
                     public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                        // TODO: Add course weight check for invalid input
-                        // TODO: Check required fields
-
                         EditText assessmentNameField = (EditText) dialog.getCustomView().findViewById(R.id.assessment_name_field);
                         EditText assessmentWeightField = (EditText) dialog.getCustomView().findViewById(R.id.assessment_weight_field);
 
@@ -254,6 +251,7 @@ public class AddCourseActivity extends AppCompatActivity {
             dialog.setTitle(R.string.edit_assessment_title);
             assessmentNameField.setText(ASSESSMENTS.get(assessmentIndex).getName());
             assessmentWeightField.setText(String.valueOf(ASSESSMENTS.get(assessmentIndex).getWeight()));
+            positiveAction.setEnabled(true);
         }
 
         TextWatcher assessmentFieldsWatcher = new TextWatcher() {
