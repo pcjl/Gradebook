@@ -1,9 +1,7 @@
 package us.philipli.gradebook.activities;
 
-import android.content.ContentValues;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
-import android.media.audiofx.BassBoost;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -14,7 +12,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import us.philipli.gradebook.R;
@@ -83,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
 
         // use a linear layout manager
         this.mLayoutManager = new LinearLayoutManager(this);
-        this.mRecyclerView.setLayoutManager(mLayoutManager);
+        this.mRecyclerView.setLayoutManager(this.mLayoutManager);
 
         setUpReadableDatabase();
 

@@ -10,7 +10,6 @@ android {
         targetSdkVersion 25
         versionCode 1
         versionName "1.0"
-        vectorDrawables.useSupportLibrary = true
     }
     buildTypes {
         release {
@@ -29,6 +28,4 @@ dependencies {
     compile 'com.afollestad.material-dialogs:core:0.9.0.1'
     compile 'com.android.support:support-v4:25.1.0'
     compile 'pl.coreorb:selection-dialogs:0.9.1'
-    compile 'com.android.support:support-vector-drawable:25.1.0'
-    testCompile 'junit:junit:4.12'
 }
