@@ -53,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onResume() {
+        // TODO: Use SQL cursors or something
         super.onResume();
         setupCoursesList();
     }

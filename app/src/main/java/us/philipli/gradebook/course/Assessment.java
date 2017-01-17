@@ -1,11 +1,11 @@
 package us.philipli.gradebook.course;
 
 public class Assessment {
-
     private String name;
     private double weight;
-    private double marksEarned;
-    private double marksTotal;
+    private double numerator;
+    private double denominator;
+
     private double grade;
 
     // Added after merge
@@ -15,7 +15,7 @@ public class Assessment {
     }
 
     public String getName() {
-        return name;
+        return this.name;
     }
 
     public void setName(String name) {
@@ -23,19 +23,44 @@ public class Assessment {
     }
 
     public double getWeight() {
-        return weight;
+        return this.weight;
     }
 
     public void setWeight(double weight) {
         this.weight = weight;
     }
 
+    public boolean setDenominator(double denominator) {
+        if (denominator > 0) {
+            this.denominator = denominator;
+
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public double getGrade() {
-        return grade;
+        return this.grade;
     }
 
     public void setGrade(double grade) {
         this.grade = grade;
+    }
+
+    private double updateGrade(double numerator, double denominator) {
+        this.numerator = numerator;
+        this.denominator = denominator;
+        this.grade = this.numerator / this.denominator;
+
+        return this.grade;
+    }
+
+    private double updateGrade(double numerator) {
+        this.numerator = numerator;
+        this.grade = this.numerator / this.denominator;
+
+        return this.grade;
     }
 
     // Added after merge.
