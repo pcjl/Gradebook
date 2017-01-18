@@ -1,30 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
-<GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/course_card"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    app:cardUseCompatPadding="true"
+    card_view:cardCornerRadius="2dp"
+    android:layout_marginTop="8dp"
+    android:layout_marginLeft="8dp"
+    android:layout_marginRight="8dp"
+    android:elevation="2dp">
 
-    <TextView
-        android:id="@+id/textview_course_name"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Course name"/>
+        android:padding="16dp">
 
-    <TextView
-        android:id="@+id/textview_course_code"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Course weight"/>
+        <TextView
+            android:id="@+id/textview_course_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="medium"
+            android:text="Course name"
+            android:textColor="#000000"
+            android:textSize="20sp" />
 
-    <TextView
-        android:id="@+id/textview_course_weight"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Course weight"/>
+        <TextView
+            android:id="@+id/textview_course_code"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Course code"
+            android:layout_below="@id/textview_course_name" />
 
-    <TextView
-        android:id="@+id/textview_course_mark"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Course mark"/>
+        <TextView
+            android:id="@+id/textview_course_weight"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Course weight"
+            android:layout_below="@id/textview_course_code" />
 
-</GridLayout>
+        <TextView
+            android:id="@+id/textview_course_mark"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Course mark"
+            android:layout_below="@id/textview_course_weight" />
+    </RelativeLayout>
+</android.support.v7.widget.CardView>

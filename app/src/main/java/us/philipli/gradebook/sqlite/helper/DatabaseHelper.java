@@ -199,10 +199,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Course course = new Course();
         course.setCourseCode(c.getString(c.getColumnIndex(KEY_COURSE_CODE)));
         course.setCourseName(c.getString(c.getColumnIndex(KEY_COURSE_NAME)));
-        course.setWeight(c.getLong(c.getColumnIndex(KEY_COURSE_WEIGHT)));
+        course.setWeight(c.getDouble(c.getColumnIndex(KEY_COURSE_WEIGHT)));
         course.setInclude(c.getInt(c.getColumnIndex(KEY_INCLUDE)));
         course.setColor(c.getString(c.getColumnIndex(KEY_COLOR)));
-        course.setGrade(c.getLong(c.getColumnIndex(KEY_COURSE_MARKS)));
+        course.setGrade(c.getDouble(c.getColumnIndex(KEY_COURSE_MARKS)));
 
         return course;
     }
@@ -221,10 +221,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 Course course = new Course();
                 course.setCourseCode(c.getString(c.getColumnIndex(KEY_COURSE_CODE)));
                 course.setCourseName(c.getString(c.getColumnIndex(KEY_COURSE_NAME)));
-                course.setWeight(c.getLong(c.getColumnIndex(KEY_COURSE_WEIGHT)));
+                course.setWeight(c.getDouble(c.getColumnIndex(KEY_COURSE_WEIGHT)));
                 course.setInclude(c.getInt(c.getColumnIndex(KEY_INCLUDE)));
                 course.setColor(c.getString(c.getColumnIndex(KEY_COLOR)));
-                course.setGrade(c.getLong(c.getColumnIndex(KEY_COURSE_MARKS)));
+                course.setGrade(c.getDouble(c.getColumnIndex(KEY_COURSE_MARKS)));
 
                 courses.add(course);
             } while (c.moveToNext());
@@ -271,8 +271,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Assessment assessment = new Assessment();
         assessment.setName(c.getString(c.getColumnIndex(KEY_ASSESSMENTS_NAME)));
         assessment.setCode(c.getString(c.getColumnIndex(KEY_COURSE_CODE)));
-        assessment.setWeight(c.getLong(c.getColumnIndex(KEY_ASSESSMENTS_WEIGHT)));
-        assessment.setGrade(c.getLong(c.getColumnIndex(KEY_ASSESSMENTS_MARKS)));
+        assessment.setWeight(c.getDouble(c.getColumnIndex(KEY_ASSESSMENTS_WEIGHT)));
+        assessment.setGrade(c.getDouble(c.getColumnIndex(KEY_ASSESSMENTS_MARKS)));
 
         return assessment;
     }
@@ -292,8 +292,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 Assessment assessment = new Assessment();
                 assessment.setName(c.getString(c.getColumnIndex(KEY_ASSESSMENTS_NAME)));
                 assessment.setCode(c.getString(c.getColumnIndex(KEY_COURSE_CODE)));
-                assessment.setWeight(c.getLong(c.getColumnIndex(KEY_ASSESSMENTS_WEIGHT)));
-                assessment.setGrade(c.getLong(c.getColumnIndex(KEY_ASSESSMENTS_MARKS)));
+                assessment.setWeight(c.getDouble(c.getColumnIndex(KEY_ASSESSMENTS_WEIGHT)));
+                assessment.setGrade(c.getDouble(c.getColumnIndex(KEY_ASSESSMENTS_MARKS)));
 
                 assessments.add(assessment);
             } while (c.moveToNext());

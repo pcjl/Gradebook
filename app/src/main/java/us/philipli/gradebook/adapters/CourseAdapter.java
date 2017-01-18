@@ -1,5 +1,6 @@
 package us.philipli.gradebook.adapters;
 
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -36,8 +37,8 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseHold
         // - replace the contents of the view with that element
         holder.textview_course_name.setText(this.mDataset.get(position).getCourseName());
         holder.textview_course_code.setText(this.mDataset.get(position).getCourseCode());
-        holder.textview_course_weight.setText(String.valueOf(this.mDataset.get(position).getWeight()));
-        holder.textview_course_mark.setText(String.valueOf(this.mDataset.get(position).getGrade()));
+        holder.textview_course_weight.setText("Weighting: " + String.valueOf(this.mDataset.get(position).getWeight()));
+        holder.textview_course_mark.setText("Grade: " + String.valueOf(this.mDataset.get(position).getGrade()));
     }
 
     // Return the size of your dataset (invoked by the layout manager)
@@ -47,6 +48,7 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseHold
     }
 
     class CourseHolder extends RecyclerView.ViewHolder {
+        CardView cardView;
         TextView textview_course_name;
         TextView textview_course_code;
         TextView textview_course_weight;
@@ -55,6 +57,7 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseHold
         CourseHolder(View itemView) {
             super(itemView);
 
+            this.cardView = (CardView) itemView.findViewById(R.id.course_card);
             this.textview_course_name = (TextView) itemView.findViewById(R.id.textview_course_name);
             this.textview_course_code = (TextView) itemView.findViewById(R.id.textview_course_code);
             this.textview_course_weight = (TextView) itemView.findViewById(R.id.textview_course_weight);

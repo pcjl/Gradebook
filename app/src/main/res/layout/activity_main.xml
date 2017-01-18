@@ -24,7 +24,7 @@
     </android.support.design.widget.AppBarLayout>
 
     <RelativeLayout
-        android:id="@+id/setings_content"
+        android:id="@+id/content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/appbar"
@@ -35,12 +35,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            app:cardUseCompatPadding="true"
-            card_view:cardCornerRadius="2dp"
-            android:layout_marginTop="8dp"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
-            android:elevation="2dp">
+            android:layout_marginTop="8dp"
+            android:elevation="2dp"
+            app:cardUseCompatPadding="true"
+            card_view:cardCornerRadius="2dp">
 
             <RelativeLayout
                 android:layout_width="wrap_content"
@@ -51,8 +51,8 @@
                     android:id="@+id/name_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="24sp"
-                    android:textColor="#000" />
+                    android:textColor="#000"
+                    android:textSize="24sp" />
 
                 <TextView
                     android:id="@+id/school_text"
@@ -66,47 +66,30 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/school_text"
-                    android:textSize="14sp"
-                    android:text="4.0 GPA" />
+                    android:text="4.0 GPA"
+                    android:textSize="14sp" />
 
             </RelativeLayout>
 
         </android.support.v7.widget.CardView>
 
-        <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/courses_card"
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/courses_recyclerview"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/summary_card"
-            android:layout_gravity="center"
-            app:cardUseCompatPadding="true"
-            card_view:cardCornerRadius="2dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:elevation="2dp">
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/courses_recyclerview"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:padding="16sp">
-
-            </android.support.v7.widget.RecyclerView>
-
-        </android.support.v7.widget.CardView>
+            android:layout_height="match_parent"
+            android:layout_below="@id/summary_card" />
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/fab"
-            android:clickable="true"
-            android:src="@drawable/ic_add_white_24dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@color/colorAccent"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
-            app:useCompatPadding="true"
-            app:elevation="6dp" />
+            android:background="@color/colorAccent"
+            android:clickable="true"
+            android:src="@drawable/ic_add_white_24dp"
+            app:elevation="6dp"
+            app:useCompatPadding="true" />
 
     </RelativeLayout>
 
