@@ -1,20 +1,20 @@
 package us.philipli.gradebook.sqlite.helper;
 
 /**
- * A contract class that defines Students table.
+ * A contract class that defines Student table.
  */
 
-public class Students {
-    int id; // Primary key
-    String name;
-    long gpa;
-    String institution;
+public class Student {
+    private int id; // Primary key
+    private String name;
+    private long gpa;
+    private String institution;
 
     // Constructors
-    public Students() {
+    public Student() {
     }
 
-    public Students(int id, String name, long gpa, String institution) {
+    public Student(int id, String name, long gpa, String institution) {
         this.id = id;
         this.name = name;
         this.gpa = gpa;

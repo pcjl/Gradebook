@@ -1,51 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:card_view="http://schemas.android.com/apk/res-auto"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/course_card"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/course_item"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_gravity="center"
-    app:cardUseCompatPadding="true"
-    card_view:cardCornerRadius="2dp"
-    android:layout_marginTop="8dp"
-    android:layout_marginLeft="8dp"
-    android:layout_marginRight="8dp"
-    android:elevation="2dp">
+    android:layout_height="88dp"
+    android:background="@android:color/background_light"
+    android:foreground="?android:attr/selectableItemBackground">
 
-    <RelativeLayout
+    <TextView
+        android:id="@+id/textview_course_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="16dp">
+        android:paddingLeft="16dp"
+        android:paddingTop="16dp"
+        android:textColor="@android:color/primary_text_light"
+        android:textSize="16sp" />
 
-        <TextView
-            android:id="@+id/textview_course_name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fontFamily="medium"
-            android:text="Course name"
-            android:textColor="#000000"
-            android:textSize="20sp" />
+    <TextView
+        android:id="@+id/textview_course_code"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textview_course_name"
+        android:paddingLeft="16dp"
+        android:textColor="@android:color/secondary_text_light"
+        android:textSize="14sp" />
 
-        <TextView
-            android:id="@+id/textview_course_code"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Course code"
-            android:layout_below="@id/textview_course_name" />
+    <TextView
+        android:id="@+id/textview_course_weight"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/textview_course_code"
+        android:paddingLeft="16dp"
+        android:textSize="14sp" />
 
-        <TextView
-            android:id="@+id/textview_course_weight"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Course weight"
-            android:layout_below="@id/textview_course_code" />
+    <TextView
+        android:id="@+id/textview_course_mark"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="right"
+        android:paddingRight="16dp"
+        android:paddingTop="16dp"
+        android:textSize="14sp" />
 
-        <TextView
-            android:id="@+id/textview_course_mark"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Course mark"
-            android:layout_below="@id/textview_course_weight" />
-    </RelativeLayout>
-</android.support.v7.widget.CardView>
+</RelativeLayout>

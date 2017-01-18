@@ -18,7 +18,6 @@ import us.philipli.gradebook.course.Course;
  */
 
 public class DatabaseHelper extends SQLiteOpenHelper {
-
     private static DatabaseHelper sInstance;
 
     private static final String LOG = "DatabaseHelper";
@@ -33,7 +32,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     // Common column names
     private static final String KEY_COURSE_CODE = "course_code"; // Used by both Courses and Assessments
 
-    // Students Table column names
+    // Student Table column names
     private static final String KEY_USER_ID = "user_id";
     private static final String KEY_USER_NAME = "user_name";
     private static final String KEY_GPA = "gpa";
@@ -67,7 +66,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             " , " + KEY_COURSE_CODE + "))";
 
     public static synchronized DatabaseHelper getInstance(Context context) {
-
         if (sInstance == null) {
             sInstance = new DatabaseHelper(context.getApplicationContext());
         }
@@ -76,7 +74,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     private DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
-
     }
 
     @Override
@@ -104,7 +101,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     * Create a new student and return its id.
     * Return: user id
      */
-    public long createStudent(Students student) {
+    public long createStudent(Student student) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
@@ -121,7 +118,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     /*
     * Get single student
      */
-    public Students getStudent(long user_id) {
+    public Student getStudent(long user_id) {
         SQLiteDatabase db = this.getReadableDatabase();
 
         String select = "SELECT * FROM " + TABLE_STUDENTS + " WHERE " + KEY_USER_ID +
@@ -135,7 +132,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             c.moveToFirst();
         }
 
-        Students student = new Students();
+        Student student = new Student();
         student.setId(c.getInt(c.getColumnIndex(KEY_USER_ID)));
         student.setName(c.getString(c.getColumnIndex(KEY_USER_NAME)));
         student.setGpa(c.getLong(c.getColumnIndex(KEY_GPA)));
@@ -147,7 +144,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     /*
     * Updating a student
      */
-    public int updateStudent(Students student) {
+    public int updateStudent(Student student) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();

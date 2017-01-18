@@ -3,13 +3,16 @@ package us.philipli.gradebook.activities;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -23,13 +26,7 @@ import us.philipli.gradebook.course.Course;
 import us.philipli.gradebook.sqlite.helper.DatabaseHelper;
 
 public class MainActivity extends AppCompatActivity {
-    // Toolbar
-    private Toolbar myToolbar;
-
-    // Set up recycler view for courses
-    private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
-    private RecyclerView.LayoutManager mLayoutManager;
     private DatabaseHelper mDatabaseHelper;
 
     @Override
@@ -38,15 +35,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         setupToolbar();
-
-        // Set up floating action button
-        FloatingActionButton myFab = (FloatingActionButton) findViewById(R.id.fab);
-        myFab.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Intent intent = new Intent(v.getContext(), AddCourseActivity.class);
-                startActivity(intent);
-            }
-        });
+        setupFab();
 
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
@@ -62,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onResume() {
-        // TODO: Use SQL cursors or something
+        // TODO: Use SQL cursors rather than onResume
         super.onResume();
 
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
@@ -78,8 +67,8 @@ public class MainActivity extends AppCompatActivity {
 
     private void setupToolbar() {
         // Set up toolbar
-        this.myToolbar = (Toolbar) findViewById(R.id.main_toolbar);
-        setSupportActionBar(this.myToolbar);
+        Toolbar myToolbar = (Toolbar) findViewById(R.id.main_toolbar);
+        setSupportActionBar(myToolbar);
 
 //        if (myToolbar != null) {
 
@@ -92,24 +81,65 @@ public class MainActivity extends AppCompatActivity {
 //        }
     }
 
+    private void setupFab() {
+        FloatingActionButton myFab = (FloatingActionButton) findViewById(R.id.fab);
+        myFab.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(), AddCourseActivity.class);
+                startActivity(intent);
+            }
+        });
+    }
+
     private void setupCoursesList() {
-        this.mRecyclerView = (RecyclerView) findViewById(R.id.courses_recyclerview);
+        RecyclerView mRecyclerView = (RecyclerView) findViewById(R.id.courses_recyclerview);
 
         // Use this setting to improve performance if you know that changes
         // in content do not change the layout size of the RecyclerView
-        this.mRecyclerView.setHasFixedSize(true);
+        mRecyclerView.setHasFixedSize(true);
 
         // use a linear layout manager
-        this.mLayoutManager = new LinearLayoutManager(this);
-        this.mRecyclerView.setLayoutManager(this.mLayoutManager);
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
+        mRecyclerView.setLayoutManager(mLayoutManager);
+
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(mRecyclerView.getContext(),
+                LinearLayoutManager.VERTICAL);
+        mRecyclerView.addItemDecoration(dividerItemDecoration);
 
         setUpReadableDatabase();
 
-        List<Course> myDataset = this.mDatabaseHelper.getAllCourses();
+        final List<Course> myDataset = this.mDatabaseHelper.getAllCourses();
 
         // specify an adapter (see also next example)
         this.mAdapter = new CourseAdapter(myDataset);
-        this.mRecyclerView.setAdapter(this.mAdapter);
+        mRecyclerView.setAdapter(this.mAdapter);
+
+        // Set up swiping items
+        ItemTouchHelper.SimpleCallback simpleItemTouchCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+            @Override
+            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(RecyclerView.ViewHolder viewHolder, int swipeDir) {
+//                final List<Course> temp = new ArrayList<>(myDataset);
+//                myDataset.remove(viewHolder.getAdapterPosition());
+                mAdapter.notifyDataSetChanged();
+                Snackbar.make(findViewById(R.id.fab), "Course deleted", Snackbar.LENGTH_LONG).setAction("Undo", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+//                        myDataset.clear();
+//                        for(Course course:temp)
+//                            myDataset.add(course);
+//                        mAdapter.notifyDataSetChanged();
+                    }
+                }).show();
+            }
+        };
+
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleItemTouchCallback);
+        itemTouchHelper.attachToRecyclerView(mRecyclerView);
     }
 
     private SQLiteDatabase setUpReadableDatabase() {

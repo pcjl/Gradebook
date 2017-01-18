@@ -7,12 +7,14 @@
             android:hint="@string/optional_setting"
             android:key="name"
             android:title="@string/name_setting" />
+
         <EditTextPreference
             android:defaultValue="@string/default_school_setting"
             android:dialogTitle="@string/school_setting_title"
             android:hint="@string/optional_setting"
             android:key="school"
             android:title="@string/school_setting" />
+
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/about_settings">
@@ -23,6 +25,7 @@
             <intent
                 android:action="android.intent.action.VIEW"
                 android:data="@string/privacy_policy_setting_link" />
+
         </Preference>
         <Preference
             android:key="licenses"
@@ -31,7 +34,9 @@
             <intent
                 android:action="android.intent.action.VIEW"
                 android:data="@string/licenses_setting_link" />
+
         </Preference>
+
         <Preference
             android:key="github"
             android:title="@string/github_setting">
@@ -39,11 +44,16 @@
             <intent
                 android:action="android.intent.action.VIEW"
                 android:data="@string/github_setting_link" />
+
         </Preference>
+
         <Preference
             android:key="version"
-            android:title="@string/version_setting"
-            android:summary="@string/version_number">
+            android:summary="@string/version_number"
+            android:title="@string/version_setting">
+
         </Preference>
+
     </PreferenceCategory>
+
 </PreferenceScreen>

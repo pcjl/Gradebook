@@ -40,11 +40,11 @@
 
     <string name="name_setting">Name</string>
     <string name="name_setting_title">Name</string>
-    <string name="default_name_setting">Philip Liu</string>
+    <string name="default_name_setting">Patrick Liu</string>
 
     <string name="school_setting">School</string>
     <string name="school_setting_title">School</string>
-    <string name="default_school_setting">University of Toronto</string>
+    <string name="default_school_setting">University of Waterloo</string>
 
     <string name="about_settings">About</string>
 

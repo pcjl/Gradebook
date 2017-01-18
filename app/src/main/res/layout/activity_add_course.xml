@@ -2,10 +2,10 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="us.philipli.gradebook.activities.AddCourseActivity"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorBackground">
+    android:background="@color/colorBackground"
+    tools:context="us.philipli.gradebook.activities.AddCourseActivity">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appbar"
@@ -35,10 +35,10 @@
                 android:layout_height="match_parent"
                 android:background="@android:color/transparent"
                 android:hint="@string/field_enter_course"
+                android:inputType="text"
                 android:textColorHint="@android:color/white"
                 android:textCursorDrawable="@drawable/color_cursor"
-                android:textSize="16sp"
-                android:inputType="text" />
+                android:textSize="16sp" />
 
         </LinearLayout>
 
@@ -46,9 +46,9 @@
 
     <android.support.v4.widget.NestedScrollView
         android:id="@+id/assessment_scroll"
-        android:layout_below="@id/appbar"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_below="@id/appbar">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -67,30 +67,29 @@
                     android:id="@+id/class_icon"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
+                    android:layout_centerVertical="true"
                     android:layout_marginLeft="16dp"
                     android:layout_marginStart="16dp"
-                    android:layout_centerVertical="true"
                     android:src="@drawable/ic_class_black_24dp" />
 
                 <EditText
                     android:id="@+id/name_field"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_centerVertical="true"
                     android:layout_marginLeft="72dp"
                     android:layout_marginStart="72dp"
-                    android:layout_centerVertical="true"
                     android:background="@android:color/transparent"
                     android:hint="@string/field_enter_course_name"
-                    android:textSize="16sp"
-                    android:inputType="text" />
+                    android:inputType="text"
+                    android:textSize="16sp" />
 
             </RelativeLayout>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1px"
-                android:background="@color/lineDivider">
-            </View>
+                android:background="@color/lineDivider"></View>
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -101,31 +100,31 @@
                     android:id="@+id/check_icon"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
+                    android:layout_centerVertical="true"
                     android:layout_marginLeft="16dp"
                     android:layout_marginStart="16dp"
-                    android:layout_centerVertical="true"
                     android:src="@drawable/ic_check_circle_black_24dp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
                     android:layout_marginLeft="72dp"
                     android:layout_marginStart="72dp"
-                    android:layout_centerVertical="true"
-                    android:textSize="16sp"
                     android:text="@string/toggle_include_gpa"
-                    android:textColor="@android:color/black"/>
+                    android:textColor="@android:color/black"
+                    android:textSize="16sp" />
 
-                    <Switch
-                        android:id="@+id/gpa_include_switch"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:paddingEnd="16dp"
-                        android:paddingRight="16dp"
-                        android:layout_centerVertical="true"
-                        android:layout_alignParentEnd="true"
-                        android:layout_alignParentRight="true"
-                        android:checked="true" />
+                <Switch
+                    android:id="@+id/gpa_include_switch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:checked="true"
+                    android:paddingEnd="16dp"
+                    android:paddingRight="16dp" />
 
             </RelativeLayout>
 
@@ -133,6 +132,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="1px"
                 android:background="@color/lineDivider">
+
             </View>
 
             <RelativeLayout
@@ -144,22 +144,22 @@
                     android:id="@+id/weight_icon"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
+                    android:layout_centerVertical="true"
                     android:layout_marginLeft="16dp"
                     android:layout_marginStart="16dp"
-                    android:layout_centerVertical="true"
                     android:src="@drawable/ic_donut_large_black_24dp" />
 
                 <EditText
                     android:id="@+id/weight_field"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_centerVertical="true"
                     android:layout_marginLeft="72dp"
                     android:layout_marginStart="72dp"
-                    android:layout_centerVertical="true"
                     android:background="@android:color/transparent"
                     android:hint="@string/field_add_weight"
-                    android:textSize="16sp"
-                    android:inputType="numberDecimal" />
+                    android:inputType="numberDecimal"
+                    android:textSize="16sp" />
 
             </RelativeLayout>
 
@@ -167,6 +167,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="1px"
                 android:background="@color/lineDivider">
+
             </View>
 
             <fragment xmlns:android="http://schemas.android.com/apk/res/android"
@@ -183,6 +184,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="1px"
                 android:background="@color/lineDivider">
+
             </View>
 
             <RelativeLayout
@@ -201,22 +203,22 @@
 
                 <LinearLayout
                     android:id="@+id/assessment_list"
-                    android:orientation="vertical"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="top"
                     android:layout_marginLeft="72dp"
-                    android:layout_marginStart="72dp">
+                    android:layout_marginStart="72dp"
+                    android:orientation="vertical">
 
                     <TextView
                         android:id="@+id/first_assessment"
                         android:layout_width="match_parent"
                         android:layout_height="64dp"
-                        android:gravity="center|start"
-                        android:textSize="16sp"
-                        android:text="@string/button_add_assessment"
                         android:clickable="true"
-                        android:onClick="showAddAssessmentDialog"/>
+                        android:gravity="center|start"
+                        android:onClick="showAddAssessmentDialog"
+                        android:text="@string/button_add_assessment"
+                        android:textSize="16sp" />
 
                 </LinearLayout>
 
@@ -225,8 +227,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1px"
-                android:background="@color/lineDivider">
-            </View>
+                android:background="@color/lineDivider"></View>
 
         </LinearLayout>
 

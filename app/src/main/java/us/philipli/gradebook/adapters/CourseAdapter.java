@@ -1,13 +1,12 @@
 package us.philipli.gradebook.adapters;
 
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import us.philipli.gradebook.R;
@@ -27,8 +26,7 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseHold
         // create a new view
         View v = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.holder_course, parent, false);
-        CourseHolder vh = new CourseHolder(v);
-        return vh;
+        return new CourseHolder(v);
     }
 
     @Override
@@ -37,8 +35,8 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseHold
         // - replace the contents of the view with that element
         holder.textview_course_name.setText(this.mDataset.get(position).getCourseName());
         holder.textview_course_code.setText(this.mDataset.get(position).getCourseCode());
-        holder.textview_course_weight.setText("Weighting: " + String.valueOf(this.mDataset.get(position).getWeight()));
-        holder.textview_course_mark.setText("Grade: " + String.valueOf(this.mDataset.get(position).getGrade()));
+        holder.textview_course_weight.setText("Weight: " + String.format("%.2f", this.mDataset.get(position).getWeight()));
+        holder.textview_course_mark.setText(String.format("%.1f%%", this.mDataset.get(position).getGrade()));
     }
 
     // Return the size of your dataset (invoked by the layout manager)
@@ -48,7 +46,7 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseHold
     }
 
     class CourseHolder extends RecyclerView.ViewHolder {
-        CardView cardView;
+        RelativeLayout relativeLayout;
         TextView textview_course_name;
         TextView textview_course_code;
         TextView textview_course_weight;
@@ -57,7 +55,21 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseHold
         CourseHolder(View itemView) {
             super(itemView);
 
-            this.cardView = (CardView) itemView.findViewById(R.id.course_card);
+            this.relativeLayout = (RelativeLayout) itemView.findViewById(R.id.course_item);
+            this.relativeLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // TODO: Open course
+                }
+            });
+            this.relativeLayout.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    // TODO: Delete dialog
+                    return false;
+                }
+            });
+
             this.textview_course_name = (TextView) itemView.findViewById(R.id.textview_course_name);
             this.textview_course_code = (TextView) itemView.findViewById(R.id.textview_course_code);
             this.textview_course_weight = (TextView) itemView.findViewById(R.id.textview_course_weight);
