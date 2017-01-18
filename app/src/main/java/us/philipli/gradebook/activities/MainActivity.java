@@ -18,6 +18,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import us.philipli.gradebook.R;
@@ -26,7 +27,7 @@ import us.philipli.gradebook.course.Course;
 import us.philipli.gradebook.sqlite.helper.DatabaseHelper;
 
 public class MainActivity extends AppCompatActivity {
-    private RecyclerView.Adapter mAdapter;
+    private CourseAdapter mAdapter;
     private DatabaseHelper mDatabaseHelper;
 
     @Override
@@ -116,6 +117,8 @@ public class MainActivity extends AppCompatActivity {
 
         // Set up swiping items
         ItemTouchHelper.SimpleCallback simpleItemTouchCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+            boolean undo = false;
+
             @Override
             public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
                 return false;
@@ -123,18 +126,29 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onSwiped(RecyclerView.ViewHolder viewHolder, int swipeDir) {
-//                final List<Course> temp = new ArrayList<>(myDataset);
+                // TODO: Make deleting courses work
+//                DatabaseHelper mDatabaseHelper = DatabaseHelper.getInstance(getParent());
+                final List<Course> temp = new ArrayList<>(myDataset);
+                mAdapter.remove(viewHolder.getAdapterPosition());
 //                myDataset.remove(viewHolder.getAdapterPosition());
                 mAdapter.notifyDataSetChanged();
+
                 Snackbar.make(findViewById(R.id.fab), "Course deleted", Snackbar.LENGTH_LONG).setAction("Undo", new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        mAdapter.clear();
 //                        myDataset.clear();
-//                        for(Course course:temp)
+                        for (Course course : temp) {
+                            mAdapter.add(course);
 //                            myDataset.add(course);
-//                        mAdapter.notifyDataSetChanged();
+                        }
+                        mAdapter.notifyDataSetChanged();
+                        undo = true;
                     }
                 }).show();
+                if (!undo) {
+//                    mDatabaseHelper.deleteCourse(myDataset.get(viewHolder.getAdapterPosition()).getCourseCode());
+                }
             }
         };
 
