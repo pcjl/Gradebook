@@ -46,16 +46,23 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseHold
         return this.mDataset.size();
     }
 
-    public void remove(int index) {
-        this.mDataset.remove(index);
+    public Course remove(int index) {
+        Course removed = this.mDataset.remove(index);
+        notifyItemRemoved(index);
+        notifyItemRangeChanged(index, this.mDataset.size());
+        notifyDataSetChanged();;
+        return removed;
+    }
+
+    public void add(Course course, int index) {
+        this.mDataset.add(index, course);
+        notifyItemInserted(index);
+        notifyItemRangeChanged(index, this.mDataset.size());
+        notifyDataSetChanged();;
     }
 
     public void clear() {
         this.mDataset.clear();
-    }
-
-    public void add(Course course) {
-        this.mDataset.add(course);
     }
 
     class CourseHolder extends RecyclerView.ViewHolder {

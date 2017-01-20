@@ -58,10 +58,10 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
         TextView nameText = (TextView) findViewById(R.id.name_text);
-        nameText.setText(sharedPreferences.getString("name", "DEFAULT"));
+        nameText.setText(sharedPreferences.getString("name", getString(R.string.default_name_setting)));
 
         TextView schoolText = (TextView) findViewById(R.id.school_text);
-        schoolText.setText(sharedPreferences.getString("school", "DEFAULT"));
+        schoolText.setText(sharedPreferences.getString("school", getString(R.string.default_name_setting)));
 
         setupCoursesList();
     }
@@ -118,6 +118,9 @@ public class MainActivity extends AppCompatActivity {
         // Set up swiping items
         ItemTouchHelper.SimpleCallback simpleItemTouchCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
             boolean undo = false;
+            DatabaseHelper mDatabaseHelper = DatabaseHelper.getInstance(getParent());
+            int index;
+            Course removed;
 
             @Override
             public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
@@ -126,28 +129,19 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onSwiped(RecyclerView.ViewHolder viewHolder, int swipeDir) {
-                // TODO: Make deleting courses work
-//                DatabaseHelper mDatabaseHelper = DatabaseHelper.getInstance(getParent());
-                final List<Course> temp = new ArrayList<>(myDataset);
-                mAdapter.remove(viewHolder.getAdapterPosition());
-//                myDataset.remove(viewHolder.getAdapterPosition());
-                mAdapter.notifyDataSetChanged();
+                // TODO: Make deleting courses work properly, also when you add a course without restarting the app, deleting course will crash the app (something isn't being updated?)
+                index = viewHolder.getAdapterPosition();
+                mDatabaseHelper.deleteCourse(myDataset.get(index).getCourseCode());
+                removed = mAdapter.remove(index);
 
                 Snackbar.make(findViewById(R.id.fab), "Course deleted", Snackbar.LENGTH_LONG).setAction("Undo", new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        mAdapter.clear();
-//                        myDataset.clear();
-                        for (Course course : temp) {
-                            mAdapter.add(course);
-//                            myDataset.add(course);
-                        }
-                        mAdapter.notifyDataSetChanged();
+                        mAdapter.add(removed, index);
                         undo = true;
                     }
                 }).show();
                 if (!undo) {
-//                    mDatabaseHelper.deleteCourse(myDataset.get(viewHolder.getAdapterPosition()).getCourseCode());
                 }
             }
         };
