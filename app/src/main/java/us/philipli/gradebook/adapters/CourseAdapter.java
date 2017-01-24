@@ -4,7 +4,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -66,7 +65,7 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseHold
     }
 
     class CourseHolder extends RecyclerView.ViewHolder {
-        LinearLayout linearLayout;
+        RelativeLayout relativeLayout;
         TextView textview_course_name;
         TextView textview_course_code;
         TextView textview_course_weight;
@@ -75,14 +74,14 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseHold
         CourseHolder(View itemView) {
             super(itemView);
 
-            this.linearLayout = (LinearLayout) itemView.findViewById(R.id.course_item);
-            this.linearLayout.setOnClickListener(new View.OnClickListener() {
+            this.relativeLayout = (RelativeLayout) itemView.findViewById(R.id.course_item);
+            this.relativeLayout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     // TODO: Open course
                 }
             });
-            this.linearLayout.setOnLongClickListener(new View.OnLongClickListener() {
+            this.relativeLayout.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
                     // TODO: Delete dialog

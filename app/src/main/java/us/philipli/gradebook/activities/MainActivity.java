@@ -134,7 +134,7 @@ public class MainActivity extends AppCompatActivity {
                 mDatabaseHelper.deleteCourse(myDataset.get(index).getCourseCode());
                 removed = mAdapter.remove(index);
 
-                Snackbar.make(findViewById(R.id.fab), "Course deleted", Snackbar.LENGTH_LONG).setAction("Undo", new View.OnClickListener() {
+                Snackbar.make(findViewById(R.id.fab), R.string.course_deleted, Snackbar.LENGTH_LONG).setAction(R.string.undo_delete, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         mAdapter.add(removed, index);
