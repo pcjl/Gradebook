@@ -98,7 +98,7 @@ public class AddCourseActivity extends AppCompatActivity {
             this.getSupportActionBar().setDisplayShowTitleEnabled(false);
 
             // Add close button
-            this.getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_close_white_24dp);
+            this.getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_close_white_24px);
             this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
     }
@@ -343,6 +343,8 @@ public class AddCourseActivity extends AppCompatActivity {
     public boolean onSupportNavigateUp() {
         if (getValues()) {
             showDiscardDialog();
+
+            // TODO: Should return true if user ends up discarding
             return false;
         } else {
             finish();
@@ -359,11 +361,11 @@ public class AddCourseActivity extends AppCompatActivity {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             if (getValues()) {
                 showDiscardDialog();
+                return false;
             } else {
                 finish();
+                return true;
             }
-
-            return true;
         }
         return super.onKeyDown(keyCode, event);
     }

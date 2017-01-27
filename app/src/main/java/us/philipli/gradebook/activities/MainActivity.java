@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
         nameText.setText(sharedPreferences.getString("name", getString(R.string.default_name_setting)));
 
         TextView schoolText = (TextView) findViewById(R.id.school_text);
-        schoolText.setText(sharedPreferences.getString("school", getString(R.string.default_name_setting)));
+        schoolText.setText(sharedPreferences.getString("school", getString(R.string.default_school_setting)));
 
         setupCoursesList();
     }
@@ -100,12 +100,13 @@ public class MainActivity extends AppCompatActivity {
         mRecyclerView.setHasFixedSize(true);
 
         // use a linear layout manager
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this) {
+            @Override
+            public boolean canScrollVertically() {
+                return false;
+            }
+        };;
         mRecyclerView.setLayoutManager(mLayoutManager);
-
-        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(mRecyclerView.getContext(),
-                LinearLayoutManager.VERTICAL);
-        mRecyclerView.addItemDecoration(dividerItemDecoration);
 
         setUpReadableDatabase();
 
@@ -114,6 +115,10 @@ public class MainActivity extends AppCompatActivity {
         // specify an adapter (see also next example)
         this.mAdapter = new CourseAdapter(myDataset);
         mRecyclerView.setAdapter(this.mAdapter);
+
+        RecyclerView.ItemDecoration itemDecoration = new
+                DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
+        mRecyclerView.addItemDecoration(itemDecoration);
 
         // Set up swiping items
         ItemTouchHelper.SimpleCallback simpleItemTouchCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
