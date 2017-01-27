@@ -16,6 +16,9 @@ import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewTreeObserver;
+import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -27,6 +30,7 @@ import us.philipli.gradebook.course.Course;
 import us.philipli.gradebook.sqlite.helper.DatabaseHelper;
 
 public class MainActivity extends AppCompatActivity {
+    private FloatingActionButton myFab;
     private CourseAdapter mAdapter;
     private DatabaseHelper mDatabaseHelper;
 
@@ -34,6 +38,24 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        final ScrollView scrollView = (ScrollView) findViewById(R.id.main_scrollview);
+        scrollView.getViewTreeObserver().addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() {
+            @Override
+            public void onScrollChanged() {
+                int dy = scrollView.getScrollY();
+                if (dy > 0) {
+                    myFab.hide();
+                } else {
+                    myFab.show();
+                }
+            }
+        });
+
+        RecyclerView mRecyclerView = (RecyclerView) findViewById(R.id.courses_recyclerview);
+        RecyclerView.ItemDecoration itemDecoration = new
+                DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
+        mRecyclerView.addItemDecoration(itemDecoration);
 
         setupToolbar();
         setupFab();
@@ -83,8 +105,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setupFab() {
-        FloatingActionButton myFab = (FloatingActionButton) findViewById(R.id.fab);
-        myFab.setOnClickListener(new View.OnClickListener() {
+        this.myFab = (FloatingActionButton) findViewById(R.id.fab);
+        this.myFab.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent intent = new Intent(v.getContext(), AddCourseActivity.class);
                 startActivity(intent);
@@ -115,10 +137,6 @@ public class MainActivity extends AppCompatActivity {
         // specify an adapter (see also next example)
         this.mAdapter = new CourseAdapter(myDataset);
         mRecyclerView.setAdapter(this.mAdapter);
-
-        RecyclerView.ItemDecoration itemDecoration = new
-                DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
-        mRecyclerView.addItemDecoration(itemDecoration);
 
         // Set up swiping items
         ItemTouchHelper.SimpleCallback simpleItemTouchCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
