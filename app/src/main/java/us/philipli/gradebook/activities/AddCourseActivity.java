@@ -51,7 +51,6 @@ public class AddCourseActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_course);
 
         setupToolBar();
-        changeTransparency();
 
         final TextView firstAssessment = (TextView) findViewById(R.id.first_assessment);
         ASSESSMENT_VIEWS.add(firstAssessment);
@@ -74,18 +73,6 @@ public class AddCourseActivity extends AppCompatActivity {
                 include = (isChecked) ? 1 : 0;
             }
         });
-    }
-
-    private void changeTransparency() {
-        ImageView checkIcon = (ImageView) findViewById(R.id.check_icon);
-        ImageView classIcon = (ImageView) findViewById(R.id.class_icon);
-        ImageView weightIcon = (ImageView) findViewById(R.id.weight_icon);
-        ImageView assessmentIcon = (ImageView) findViewById(R.id.assessment_icon);
-
-        checkIcon.setImageAlpha(140);
-        classIcon.setImageAlpha(140);
-        weightIcon.setImageAlpha(140);
-        assessmentIcon.setImageAlpha(140);
     }
 
     private void setupToolBar() {
