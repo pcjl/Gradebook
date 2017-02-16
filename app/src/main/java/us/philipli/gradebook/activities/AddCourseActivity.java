@@ -17,7 +17,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.Switch;
@@ -85,7 +84,7 @@ public class AddCourseActivity extends AppCompatActivity {
             this.getSupportActionBar().setDisplayShowTitleEnabled(false);
 
             // Add close button
-            this.getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_close_white_24px);
+            this.getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_close_white_24dp);
             this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
     }

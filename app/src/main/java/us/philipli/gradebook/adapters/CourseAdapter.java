@@ -1,15 +1,20 @@
 package us.philipli.gradebook.adapters;
 
+import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.List;
 
 import us.philipli.gradebook.R;
+import us.philipli.gradebook.activities.CourseActivity;
 import us.philipli.gradebook.course.Course;
 
 public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseHolder> {
@@ -64,7 +69,7 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseHold
         this.mDataset.clear();
     }
 
-    class CourseHolder extends RecyclerView.ViewHolder {
+    class CourseHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         RelativeLayout relativeLayout;
         TextView textview_course_name;
         TextView textview_course_code;
@@ -73,26 +78,20 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseHold
 
         CourseHolder(View itemView) {
             super(itemView);
-
             this.relativeLayout = (RelativeLayout) itemView.findViewById(R.id.course_item);
-            this.relativeLayout.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    // TODO: Open course
-                }
-            });
-            this.relativeLayout.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View v) {
-                    // TODO: Delete dialog
-                    return false;
-                }
-            });
+            this.relativeLayout.setOnClickListener(this);
 
             this.textview_course_name = (TextView) itemView.findViewById(R.id.textview_course_name);
             this.textview_course_code = (TextView) itemView.findViewById(R.id.textview_course_code);
             this.textview_course_weight = (TextView) itemView.findViewById(R.id.textview_course_weight);
             this.textview_course_mark = (TextView) itemView.findViewById(R.id.textview_course_mark);
+        }
+
+        @Override
+        public void onClick(View view) {
+            Intent intent = new Intent(view.getContext(), CourseActivity.class);
+            intent.putExtra("pos", this.getLayoutPosition());
+            view.getContext().startActivity(intent);
         }
     }
 }
